@@ -5,55 +5,45 @@ namespace App\Http\Controllers\Admin\Category;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CategoryRequest;
 use App\Infrastructure\Persistence\Models\Category;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
+use Inertia\Response;
 
 class CategoryController extends Controller
 {
-    public function index()
+    public function index(): Response
     {
         $categories = Category::all();
-
-        dd($categories);
-
-//        return view('categories.index', compact('categories'));
+        return Inertia::render('Categories/Index', ['categories' => $categories]);
     }
 
-    public function create()
+    public function create(): Response
     {
-        //
+        return Inertia::render('Categories/Create');
     }
 
-    public function store(CategoryRequest $request)
+    public function store(CategoryRequest $request): RedirectResponse
     {
-        $category = Category::create($request->validated());
-        dd('hola');
-
+        Category::create($request->validated());
+        return redirect()->route('categories.index');
     }
 
-
-    public function show(string $id)
+    public function edit(Category $category): Response
     {
-        //
+        return Inertia::render('Categories/Edit', ['category' => $category]);
     }
 
-
-    public function edit(string $id)
+    public function update(Request $request, Category $category): RedirectResponse
     {
-        //
+        $category->update($request->toArray());
+        return redirect()->route('categories.index');
     }
 
-
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-
-    public function destroy(Category $category)
+    public function destroy(Category $category): RedirectResponse
     {
         $category->delete();
-
-        dd('hola lo borre');
+        return redirect()->route('categories.index');
     }
-
 }
+
