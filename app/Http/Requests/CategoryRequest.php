@@ -16,7 +16,7 @@ class CategoryRequest extends FormRequest
         return [
             'name' => 'required|string|max:255',
             'alias' => 'required|string|max:255|unique:categories,alias',
-            'description' => 'nullable|string',
+            'description' => 'required|string',
         ];
     }
 }
