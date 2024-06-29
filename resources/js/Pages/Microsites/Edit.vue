@@ -1,0 +1,86 @@
+<template>
+    <!-- This is an example component -->
+    <AuthenticatedLayout>
+        <div class="my-8 max-w-md mx-auto p-8 bg-white rounded-md shadow-md">
+            <h2 class="text-2xl font-semibold mb-6">Microsites</h2>
+            <form @submit.prevent="submit">
+                <div class="mb-4">
+                    <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Name</label>
+                    <input type="text" id="name" name="name" v-model="form.name" required
+                           class="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500">
+                </div><div class="mb-4">
+                <label for="slug" class="block text-gray-700 text-sm font-bold mb-2">Slug</label>
+                <input type="text" id="slug" name="slug" v-model="form.slug" required
+                       class="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500">
+            </div>
+                <div class="mb-4">
+                    <label for="type" class="block text-gray-700 text-sm font-bold mb-2">Tipo de micrositio</label>
+                    <select id="type" name="currency" v-model="form.type"
+                            class="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500">
+                        <option disabled value="">Seleccione una</option>
+                        <option v-for="(value, key) in types" :key="key" :value="value">
+                            {{ value }}
+                        </option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label for="category_id" class="block text-gray-700 text-sm font-bold mb-2">Categoria</label>
+                    <select id="category_id" name="category_id" v-model="form.category_id"
+                            class="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500">
+                        <option disabled value="">Seleccione una</option>
+                        <option v-for="(value, key) in categories" :key="key" :value="key">
+                            {{ value }}
+                        </option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label for="currency" class="block text-gray-700 text-sm font-bold mb-2">Currency</label>
+                    <select id="currency" name="currency" v-model="form.currency"
+                            class="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500">
+                        <option disabled value="">Seleccione una</option>
+                        <option v-for="(value, key) in currencies" :key="key" :value="value">
+                            {{ value }}
+                        </option>
+                    </select>
+                </div>
+                <div class="mb-4">
+                    <label for="payment_expiration" class="block text-gray-700 text-sm font-bold mb-2">Payment_expiration</label>
+                    <input type="number" min="3" id="payment_expiration" name="payment_expiration" v-model="form.payment_expiration" required
+                           class="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500">
+                </div>
+
+                <button type="submit"
+                        class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue">
+                    Edit
+                </button>
+            </form>
+        </div>
+    </AuthenticatedLayout>
+</template>
+
+<script setup>
+import { ref } from 'vue';
+import { useForm } from '@inertiajs/vue3';
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
+import { defineProps } from 'vue';
+
+const props = defineProps({
+    currencies: Object,
+    categories: Object,
+    types: Object,
+    microsite: Object
+});
+
+const form = useForm({
+    name: props.microsite.name,
+    slug: props.microsite.slug,
+    category_id: props.microsite.category_id,
+    type: props.microsite.type,
+    currency: props.microsite.currency,
+    payment_expiration: props.microsite.payment_expiration
+});
+
+const submit = () => {
+    form.patch(route('microsites.update', props.microsite.id));
+};
+</script>

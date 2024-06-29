@@ -8,6 +8,7 @@
         @vite('resources/css/app.css')
         @inertiaHead
     </head>
+    <h1>Hola</h1>
     <body class="font-sans antialiased bg-gray-200">
         @inertia
     </body>
