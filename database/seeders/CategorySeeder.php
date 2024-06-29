@@ -13,21 +13,21 @@ class CategorySeeder extends Seeder
      */
     public function run(): void
     {
-        $category=[
+        $category = [
             [
-                'name'=> 'invoice',
-                'alias'=>'invoice',
-                'description'=> 'description invoice',
+                'name' => 'invoice',
+                'alias' => 'invoice',
+                'description' => 'description invoice',
             ],
             [
-                'name'=> 'subscription',
-                'alias'=>'subscription',
-                'description'=> 'description subscription',
+                'name' => 'subscription',
+                'alias' => 'subscription',
+                'description' => 'description subscription',
             ],
             [
-                'name'=> 'donation',
-                'alias'=>'donation',
-                'description'=> 'description donation',
+                'name' => 'donation',
+                'alias' => 'donation',
+                'description' => 'description donation',
             ],
         ];
         Category::query()->insert($category);
