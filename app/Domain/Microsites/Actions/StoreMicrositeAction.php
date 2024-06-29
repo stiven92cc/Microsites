@@ -9,17 +9,13 @@ use Illuminate\Support\Str;
 
 class StoreMicrositeAction
 {
-    public function execute(StoreMicrositeRequest $request)
+    public function execute(StoreMicrositeRequest $request): void
     {
-        dd($request);
-        $category = Category::find();
+        $data = $request->toArray();
 
-       Microsite::query()->create([
-           'name' => $request['name'],
-           'slug' => $request['name'] . '_' . Str::random(50, 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789'),
-           'currency'=> $request['currency'],
-           'payment_expiration' => $request['payment_expiration'],
-           'category_id'
-       ]);
+        if ($data['logo']) {
+            $data['logo'] = $data['logo']->store('logo', ['disk' => 'public']);
+        }
+        Microsite::query()->create($data);
     }
 }
