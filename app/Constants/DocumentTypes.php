@@ -2,13 +2,15 @@
 
 namespace App\Constants;
 
-class MicrositeTypes
+class DocumentTypes
 {
-    public const INVOICE = 'invoice';
+    public const CC = 'CC';
 
-    public const SUBSCRIPTION = 'subscription';
+    public const CE = 'CE';
 
-    public const DONATION = 'donation';
+    public const PA = 'PA';
+
+    public const NIT = 'NIT';
 
     public static function getTypes(): array
     {
