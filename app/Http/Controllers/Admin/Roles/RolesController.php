@@ -34,22 +34,22 @@ class RolesController extends Controller
 
     public function edit(string $id): Response
     {
-        $roles = Role::find($id);
-        return Inertia::render('Roles/Edit', compact('roles'));
+        $role = Role::with('permissions')->find($id);
+        $allPermissions = Permission::all();
+
+        return Inertia::render('Roles/Edit', compact('role', 'allPermissions'));
     }
 
 
     public function update(UpdateRoleRequest $request, string $id, UpdateRolesAction $updateAction): RedirectResponse
     {
-
         return $updateAction->execute($id, $request->validated());
-
     }
 
 
-    public function destroy(Role $roles): RedirectResponse
+    public function destroy(Role $role): RedirectResponse
     {
-        $roles->delete();
+        $role->delete();
         return redirect()->route('roles.index');
     }
 }
