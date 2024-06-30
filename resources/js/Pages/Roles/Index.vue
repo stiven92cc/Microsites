@@ -26,9 +26,6 @@ const props = defineProps({
     roles: {type: Object}
 })
 
-console.log(props.roles)
-
-
 const columns = [
     { key: 'id', label: '#' },
     { key: 'name', label: 'Name' },
