@@ -24,6 +24,13 @@ class Permissions
     public const CATEGORIES_EDIT = 'categories.edit';
     public const CATEGORIES_DESTROY = 'categories.destroy';
 
+    public const ROLES_INDEX = 'roles.index';
+    public const ROLES_STORE = 'roles.store';
+    public const ROLES_UPDATE = 'roles.update';
+    public const ROLES_EDIT = 'roles.edit';
+    public const ROLES_DESTROY = 'roles.destroy';
+
+
     public static function getAllPermissions(): array
     {
         return (new \ReflectionClass(self::class))->getConstants();
