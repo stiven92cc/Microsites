@@ -2,12 +2,15 @@
 
 namespace App\Http\Controllers\Admin\Roles;
 
+use App\Constants\Permissions;
+use App\Constants\Roles;
 use App\Domain\Roles\StoreRolesAction;
 use App\Domain\Roles\UpdateRolesAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Roles\StoreRolRequest;
 use App\Http\Requests\Roles\UpdateRoleRequest;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
 use Inertia\Response;
 use Spatie\Permission\Models\Permission;
@@ -49,7 +52,16 @@ class RolesController extends Controller
 
     public function destroy(Role $role): RedirectResponse
     {
-        $role->delete();
+        if (!Auth::user()->hasPermissionTo(Permissions::ROLES_DESTROY)) {
+            return redirect()->back();
+        }
+
+        if (!in_array($role->name, Roles::getAllRoles())) {
+            $role->delete();
+        }
+
         return redirect()->route('roles.index');
     }
+
+
 }
