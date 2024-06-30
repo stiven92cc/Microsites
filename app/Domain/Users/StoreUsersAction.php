@@ -11,6 +11,7 @@ class StoreUsersAction
 {
     public function execute(StoreUserRequest $request): void
     {
-        User::query()->create($request->validated());
+        $user = User::query()->create($request->validated());
+        $user->assignRole($request->get('role'));
     }
 }
