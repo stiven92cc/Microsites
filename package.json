@@ -21,6 +21,8 @@
         "@heroicons/vue": "^2.1.4",
         "@inertiajs/inertia": "^0.11.1",
         "@inertiajs/vue3": "^1.0.16",
-        "@vitejs/plugin-vue": "^5.0.4"
+        "@vitejs/plugin-vue": "^5.0.4",
+        "laravel-permission-to-vuejs": "^3.0.2",
+        "ziggy-js": "^2.2.1"
     }
 }

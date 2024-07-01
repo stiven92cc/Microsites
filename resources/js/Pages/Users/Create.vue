@@ -13,6 +13,18 @@
                     <input type="text" id="email" name="email" v-model="form.email" required
                            class="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500">
                 </div>
+                <div class="mb-4">
+                    <label for="role" class="block text-gray-700 text-sm font-bold mb-2">Role</label>
+                    <select  v-model="form.role" name="role" id="role" class="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500">
+                        <option
+                            name="role"
+                            v-for="role in props.roles"
+                            :value="role.name"
+                        >
+                            {{role.name}}
+                        </option>
+                    </select>
+                </div>
 
                 <div class="mb-4">
                     <label for="password" class="block text-gray-700 text-sm font-bold mb-2">Password</label>
@@ -45,10 +57,14 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 const form = useForm({
     name: '',
     email: '',
+    role: '',
     password:'',
     confirm_password:'',
 });
 
+const props = defineProps({
+    roles: {type:Object}
+});
 
 
 const submit = () => {
