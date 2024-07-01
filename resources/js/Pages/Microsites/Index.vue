@@ -6,7 +6,7 @@
             </div>
         </template>
 
-        <div class="flex justify-end w-full">
+        <div v-if="can('microsites.create')" class="flex justify-end w-full">
             <Button class="mx-8 my-2" routeName="microsites.create" text="Create" />
         </div>
 
