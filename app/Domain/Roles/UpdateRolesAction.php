@@ -6,7 +6,6 @@ use Illuminate\Http\RedirectResponse;
 use Spatie\Permission\Models\Role;
 
 class UpdateRolesAction
-
 {
     public function execute(int $id, array $data): RedirectResponse
     {

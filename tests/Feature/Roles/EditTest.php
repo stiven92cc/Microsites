@@ -11,7 +11,6 @@ use Tests\TestCase;
 
 class EditTest extends TestCase
 {
-
     use RefreshDatabase;
 
     public function test_can_edit_rol(): void

@@ -11,20 +11,20 @@ use Tests\TestCase;
 
 class StoreTest extends TestCase
 {
-    Use RefreshDatabase;
+    use RefreshDatabase;
 
     protected array $request;
 
     public function setUp(): void
     {
-      parent::setUp();
+        parent::setUp();
 
-      Permission::findOrCreate('microsites.index', 'web');
+        Permission::findOrCreate('microsites.index', 'web');
 
-      $this->request=[
-          'name' => 'Admin',
-          'permissions' => 'microsites.index',
-      ];
+        $this->request = [
+            'name' => 'Admin',
+            'permissions' => 'microsites.index',
+        ];
     }
 
     public function test_can_store_rol(): void
@@ -42,7 +42,7 @@ class StoreTest extends TestCase
 
 
         $response = $this->actingAs($user)
-            ->post(route('roles.store'),$this->request);
+            ->post(route('roles.store'), $this->request);
 
         $response->assertRedirect(route('roles.index'));
 

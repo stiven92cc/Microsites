@@ -7,10 +7,11 @@ use App\Infrastructure\Persistence\Models\User;
 use Illuminate\Auth\Access\Response;
 
 class CategoryPolicy
-{public function viewAny(User $user): bool
 {
-    return $user->hasPermissionTo(Permissions::CATEGORIES_INDEX);
-}
+    public function viewAny(User $user): bool
+    {
+        return $user->hasPermissionTo(Permissions::CATEGORIES_INDEX);
+    }
 
 
     public function create(User $user): bool
