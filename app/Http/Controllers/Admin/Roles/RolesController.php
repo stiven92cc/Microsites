@@ -9,6 +9,7 @@ use App\Domain\Roles\UpdateRolesAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Roles\StoreRolRequest;
 use App\Http\Requests\Roles\UpdateRoleRequest;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 use Inertia\Inertia;
@@ -18,6 +19,7 @@ use Spatie\Permission\Models\Role;
 
 class RolesController extends Controller
 {
+    use AuthorizesRequests;
     public function index(): Response
     {
         return Inertia::render('Roles/Index', ['roles' => Role::all()]);
