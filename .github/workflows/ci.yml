@@ -1,65 +1,59 @@
-name: Laravel CI
+name: CI
 
-on: [push, pull_request]
+on:
+  push:
+    branches:
+      - main
+      - dev
+      - '**'
+  pull_request:
+    branches:
+      - main
+      - dev
+      - '**'
 
 jobs:
-  run-tests:
+  test:
     runs-on: ubuntu-latest
+
     services:
       mysql:
-        image: mysql:8.0
+        image: mysql:5.7
+        options: --health-cmd="mysqladmin ping --silent" --health-interval=10s --health-timeout=5s --health-retries=3
         env:
           MYSQL_ROOT_PASSWORD: root
-          MYSQL_DATABASE: microsites
-          MYSQL_USER: root
-          MYSQL_PASSWORD: root
+          MYSQL_DATABASE: test_db
         ports:
           - 3306:3306
-        options: >-
-          --health-cmd="mysqladmin ping --silent"
-          --health-interval=10s
-          --health-timeout=5s
-          --health-retries=3
 
     steps:
-      - name: Check out repository code
-        uses: actions/checkout@v2
+      - name: Check out repository
+        uses: actions/checkout@v4  
 
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
         with:
           php-version: 8.2
-          extensions: mbstring, intl, bcmath, pdo_mysql
+          extensions: mbstring, mysql, pdo_mysql
           ini-values: post_max_size=256M, upload_max_filesize=256M
           coverage: none
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: '14'
-
       - name: Install Composer dependencies
-        run: composer install --prefer-dist --no-progress --no-suggest
+        run: composer install --prefer-dist --no-progress --no-suggest --ansi
 
       - name: Create .env file
-        run: |
-          cp .env.example .env
-          php artisan key:generate
-          echo "DB_CONNECTION=mysql" >> .env
-          echo "DB_HOST=127.0.0.1" >> .env
-          echo "DB_PORT=3306" >> .env
-          echo "DB_DATABASE=microsites" >> .env
-          echo "DB_USERNAME=root" >> .env
-          echo "DB_PASSWORD=root" >> .env
+        run: cp .env.example .env
 
-      - name: Wait for MySQL to be ready
-        run: |
-          dockerize -wait tcp://127.0.0.1:3306 -timeout 1m
+      - name: Generate key
+        run: php artisan key:generate
 
-      - name: Run migrations and seeders
+      - name: Configure database
         run: |
+          php artisan config:cache
           php artisan migrate --force
-          php artisan db:seed --force
 
       - name: Run PHPUnit tests
         run: vendor/bin/phpunit
+
+      - name: Run PHP CS Fixer
+        run: composer fix
