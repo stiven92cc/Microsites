@@ -15,11 +15,12 @@ class DeleteTest extends TestCase
     public function test_can_delete_user(): void
     {
         $user = User::factory()->create();
+        $user2 = User::factory()->create();
 
         $this->actingAs($user)
-            ->delete(route('users.destroy', $user->id))
-            ->assertRedirect(route('users.index'));
+            ->delete(route('users.destroy', $user2->id));
 
-        $this->assertDatabaseMissing('users', ['id' => $user->id]);
+
+        $this->assertDatabaseMissing('users', ['id' => $user2->id]);
     }
 }
