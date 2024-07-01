@@ -9,6 +9,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\Microsites\StoreMicrositeRequest;
 use App\Infrastructure\Persistence\Models\Category;
 use App\Infrastructure\Persistence\Models\Microsite;
+use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -18,13 +19,16 @@ use Inertia\Response;
 
 class MicrositesController extends Controller
 {
+    use AuthorizesRequests;
     public function index(): Response
     {
+        $this->authorize('viewAny', Microsite::class);
         return Inertia::render('Microsites/Index', ['microsites' => Microsite::all()]);
     }
 
     public function create(): Response
     {
+        $this->authorize('create', Microsite::class);
         return Inertia::render(
             'Microsites/Create',
             [
@@ -39,6 +43,7 @@ class MicrositesController extends Controller
 
     public function store(StoreMicrositeRequest $request, StoreMicrositeAction $action): RedirectResponse
     {
+        $this->authorize('store', Microsite::class);
         $action->execute($request);
 
         Cache::forget('guest.microsites');
@@ -50,6 +55,7 @@ class MicrositesController extends Controller
 
     public function show(Microsite $microsite): Response
     {
+        $this->authorize('show', Microsite::class);
         return Inertia::render('Microsites/Show', [
             'microsite' => $microsite,
             'currencies' => CurrencyTypes::getTypes(),
@@ -62,6 +68,7 @@ class MicrositesController extends Controller
 
     public function edit(Microsite $microsite): Response
     {
+        $this->authorize('edit', Microsite::class);
         return Inertia::render(
             'Microsites/Edit',
             [
@@ -77,6 +84,7 @@ class MicrositesController extends Controller
 
     public function update(Request $request, string $id): RedirectResponse
     {
+        $this->authorize('update', Microsite::class);
         $data = $request->all();
         $microsite = Microsite::findOrFail($id);
         $microsite->update($data);
@@ -89,6 +97,7 @@ class MicrositesController extends Controller
 
     public function destroy(Microsite $microsite): RedirectResponse
     {
+        $this->authorize('delete', Microsite::class);
         $microsite->delete();
 
         Cache::forget('guest.microsites');
