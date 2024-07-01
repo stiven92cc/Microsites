@@ -6,6 +6,8 @@ use App\Constants\MicrositeTypes;
 use App\Infrastructure\Persistence\Models\Category;
 use App\Infrastructure\Persistence\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\UploadedFile;
+use Illuminate\Support\Facades\Storage;
 use Tests\TestCase;
 
 class StoreTest extends TestCase
@@ -16,14 +18,17 @@ class StoreTest extends TestCase
     {
         $user = User::factory()->create();
 
+        Storage::fake('public');
+        $file = UploadedFile::fake()->image('logo.jpg');
+
         $data = [
             'name' => 'technology',
             'slug' => 'technology',
-            'logo' => 'description',
             'category_id' => Category::factory()->create()->id,
             'type' => MicrositeTypes::DONATION,
             'currency' => 'COP',
-            'payment_expiration' => 12
+            'payment_expiration' => 12,
+            'logo' => $file,
         ];
 
         $this->actingAs($user)

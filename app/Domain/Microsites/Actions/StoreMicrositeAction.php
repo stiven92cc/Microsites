@@ -13,7 +13,7 @@ class StoreMicrositeAction
     {
         $data = $request->toArray();
 
-        if ($data['logo']) {
+        if (isset($data['logo'])) {
             $data['logo'] = $data['logo']->store('logo', ['disk' => 'public']);
         }
         Microsite::query()->create($data);
