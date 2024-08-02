@@ -33,6 +33,7 @@ class HandleInertiaRequests extends Middleware
             ...parent::share($request),
             'auth' => [
                 'user' => $request->user(),
+                'permissionsJs' => json_decode(auth()->check() ? auth()->user()->jsPermissions() : '{}', true),
             ],
         ];
     }

@@ -44,7 +44,7 @@ class MicrositesController extends Controller
     public function store(StoreMicrositeRequest $request, StoreMicrositeAction $action): RedirectResponse
     {
         $this->authorize('store', Microsite::class);
-        $action->execute($request);
+        $action->execute($request->validated());
 
         Cache::forget('guest.microsites');
 
@@ -55,14 +55,11 @@ class MicrositesController extends Controller
 
     public function show(Microsite $microsite): Response
     {
+//        dd($microsite->load(['category', 'form']));
         $this->authorize('show', Microsite::class);
+
         return Inertia::render('Microsites/Show', [
-            'microsite' => $microsite,
-            'currencies' => CurrencyTypes::getTypes(),
-            'types' => MicrositeTypes::getTypes(),
-            'categories' => Category::all()
-                ->select('id', 'name')
-                ->pluck('name', 'id'),
+            'microsite' => $microsite->load(['category', 'form']),
         ]);
     }
 

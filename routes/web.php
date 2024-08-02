@@ -14,6 +14,7 @@ use Inertia\Inertia;
 Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
 
 Route::get('/payment/{microsite}', [PaymentController::class, 'micrositeForm'])->name('payment.form');
+Route::post('/payment/{microsite}', [PaymentController::class, 'pay'])->name('payment.pay');
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
