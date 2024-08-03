@@ -34,6 +34,8 @@ class Permissions
     public const ROLES_UPDATE = 'roles.update';
     public const ROLES_EDIT = 'roles.edit';
     public const ROLES_DESTROY = 'roles.destroy';
+    public const PAYMENTS_INDEX = 'payments.index';
+    public const PAYMENTS_SHOW = 'payments.show';
 
 
     public static function getAllPermissions(): array
