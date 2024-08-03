@@ -7,7 +7,7 @@
         </template>
 
         <div v-if="can('microsites.create')" class="flex justify-end w-full">
-            <Button class="mx-8 my-2" routeName="microsites.create" text="Create" />
+            <Button class="mx-32 my-2" routeName="microsites.create" text="Create" />
         </div>
 
         <DataTable :columns="columns" :rows="microsites" />
@@ -20,7 +20,7 @@ import DataTable from "@/Components/Molecules/DataTable.vue";
 import Button from "@/Components/Atoms/Button.vue";
 import { h } from 'vue';
 import { router } from '@inertiajs/vue3';
-import {PencilIcon, TrashIcon} from "@heroicons/vue/24/outline/index.js";
+import {PencilIcon, TrashIcon, EyeIcon, CreditCardIcon} from "@heroicons/vue/24/outline/index.js";
 
 defineProps({ microsites: Array });
 
@@ -47,22 +47,18 @@ const columns = [
                     h(TrashIcon,{
                         onClick: () => router.delete(`/microsites/${row.id}`),
                         class: 'h-5 w-5 text-gray-400 hover:text-red-500 mr-2 cursor-pointer',
-                    })
+                    }),
+                    h(EyeIcon,{
+                        onClick: () => router.get(`/microsites/${row.id}`),
+                        class: 'h-5 w-5 text-gray-400 hover:text-gray-800 mr-2 cursor-pointer',
+                    }),
+                    h(CreditCardIcon,{
+                        onClick: () => router.get(`/payment/${row.id}`),
+                        class: 'h-5 w-5 text-gray-400 hover:text-gray-800 mr-2 cursor-pointer',
+                    }),
                 ])
             }
         })
     },
-    {
-        key: 'actions',
-        label: 'Actions',
-        formatter: (value, row) => ({
-            render() {
-                return h('button', {
-                    onClick: () => router.get(`/payment/${row.id}`),
-                    class: 'text-blue-500 hover:text-blue-700'
-                }, 'Ver formulario');
-            }
-        })
-    }
 ];
 </script>

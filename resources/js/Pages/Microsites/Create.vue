@@ -89,10 +89,7 @@ const form = useForm({
 const onSelectLogo = (e) => {
     const files = e.target.files
     if(files.length){
-        console.log(files)
         form.logo = files[0]
-        console.log(form)
-
     }
 }
 
