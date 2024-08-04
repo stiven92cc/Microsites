@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Payment;
 
+use App\Constants\CurrencyTypes;
 use App\Constants\DocumentTypes;
 use App\Contracts\PaymentGatewayContract;
 use App\Infrastructure\Persistence\Models\Microsite;
@@ -13,13 +14,14 @@ use Inertia\Response;
 
 class PaymentController
 {
-    public function micrositeForm(Microsite $microsite)
+    public function micrositeForm(Microsite $microsite): Response
     {
         return Inertia::render(
             'MicrositesForms/' . ucfirst($microsite->type),
             [
                 'microsite' => $microsite,
-                'documentTypes' => DocumentTypes::getTypes()
+                'documentTypes' => DocumentTypes::getTypes(),
+                'currencyTypes' => CurrencyTypes::getTypes()
             ]
         );
     }
@@ -32,7 +34,12 @@ class PaymentController
 
     public function show(Payment $payment): Response
     {
-        return Inertia::render('Payments/Show', ['payment' => $payment]);
+        $microsite = Microsite::query()->where('id', $payment->microsite_id)->first();
+
+        return Inertia::render('Payments/Show', [
+            'payment' => $payment,
+            'microsite' => $microsite,
+        ]);
     }
 
     public function pay(Request $request, Microsite $microsite, PaymentGatewayContract $gateway)
