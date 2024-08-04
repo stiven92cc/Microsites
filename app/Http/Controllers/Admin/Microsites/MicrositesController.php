@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Admin\Microsites;
 use App\Constants\CurrencyTypes;
 use App\Constants\MicrositeTypes;
 use App\Domain\Microsites\Actions\StoreMicrositeAction;
+use App\Domain\Microsites\Actions\UpdateMicrositeAction;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Microsites\StoreMicrositeRequest;
+use App\Http\Requests\Microsites\UpdateMicrositeRequest;
 use App\Infrastructure\Persistence\Models\Category;
 use App\Infrastructure\Persistence\Models\Microsite;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
@@ -55,7 +57,6 @@ class MicrositesController extends Controller
 
     public function show(Microsite $microsite): Response
     {
-//        dd($microsite->load(['category', 'form']));
         $this->authorize('show', Microsite::class);
 
         return Inertia::render('Microsites/Show', [
@@ -79,12 +80,11 @@ class MicrositesController extends Controller
         );
     }
 
-    public function update(Request $request, string $id): RedirectResponse
+    public function update(UpdateMicrositeRequest $request, string $id, UpdateMicrositeAction $action): RedirectResponse
     {
         $this->authorize('update', Microsite::class);
-        $data = $request->all();
-        $microsite = Microsite::findOrFail($id);
-        $microsite->update($data);
+
+        $action->execute($request->validated(), $id);
 
         Cache::forget('guest.microsites');
 
