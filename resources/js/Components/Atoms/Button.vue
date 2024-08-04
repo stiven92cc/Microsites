@@ -1,11 +1,11 @@
 <template>
-    <button @click="navigate" class="bg-blue-700 text-white px-4 py-2 rounded hover:bg-blue-800">
+    <button @click="navigate" class="bg-blue-700 text-white px-4 py-2 mx-24 rounded hover:bg-blue-800">
         {{ text }}
     </button>
 </template>
 
 <script setup>
-import { Inertia } from '@inertiajs/inertia';
+import { router } from '@inertiajs/vue3';
 import { defineProps } from 'vue';
 
 const props = defineProps({
@@ -14,7 +14,7 @@ const props = defineProps({
 });
 
 const navigate = () => {
-    Inertia.visit(route(props.routeName));
+    router.get(route(props.routeName));
 };
 </script>
 

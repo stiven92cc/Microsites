@@ -1,13 +1,20 @@
 <script setup>
-import { ref } from 'vue';
+import {ref, watchEffect} from 'vue';
 import ApplicationLogo from '@/Components/ApplicationLogo.vue';
 import Dropdown from '@/Components/Dropdown.vue';
 import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
-import { Link } from '@inertiajs/vue3';
+import {Link, usePage} from '@inertiajs/vue3';
 
 const showingNavigationDropdown = ref(false);
+const page = usePage();
+const props = ref(page.props);
+
+watchEffect(() => {
+    window.Laravel = window.Laravel || {}
+    window.Laravel.jsPermissions = props.value.auth.permissionsJs ?? {};
+});
 </script>
 
 <template>
@@ -46,7 +53,7 @@ const showingNavigationDropdown = ref(false);
                                 </NavLink>
                             </div>
                             <div v-if="can('users.index')" class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                                <NavLink :href="route('users.index')" :active="route().current('categories.index')">
+                                <NavLink :href="route('users.index')" :active="route().current('users.index')">
                                     Usuarios
                                 </NavLink>
                             </div>
