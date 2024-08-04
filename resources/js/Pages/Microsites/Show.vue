@@ -1,10 +1,18 @@
 <template>
     <AuthenticatedLayout>
         <template #header>
-            <div class="flex">
-                <h2 class="font-semibold text-xl text-gray-800 leading-tight">{{ props.microsite.name }}</h2>
-            </div>
+            <SPageTitle>{{ props.microsite.name }}</SPageTitle>
         </template>
+
+        <div class="flex justify-end mt-6 mx-12">
+            <Button
+                :iconPosition="'left'"
+                :icon="ArrowLeftIcon"
+                :route-name="'microsites.index'"
+            >
+                Back
+            </Button>
+        </div>
 
         <div class="min-w-min bg-white m-12 rounded-lg">
             <DropDownIndex
@@ -75,6 +83,9 @@ import {route} from "ziggy-js";
 import Dropdown from "@/Components/Dropdown.vue";
 import DropDownIndex from "@/Components/Molecules/DropDownIndex.vue";
 import Form from "@/Pages/Microsites/Form.vue";
+import {SPageTitle} from "@placetopay/spartan-vue";
+import Button from "@/Components/Atoms/Button.vue";
+import {ArrowLeftIcon} from "@heroicons/vue/24/outline/index.js";
 
 const parserDate = new ParserDate();
 

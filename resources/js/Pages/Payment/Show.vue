@@ -16,7 +16,7 @@
             />
             <div class="p-6 grid grid-cols-3">
                 <div>
-                    <h1 class="text-gray-400">name:</h1>
+                    <h1 class="text-gray-400">name: tu tia en tanga</h1>
                     <span class="text-gray-900">{{ props.payments.name }}</span>
                 </div>
                 <div>

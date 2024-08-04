@@ -1,6 +1,170 @@
+<template>
+    <AuthenticatedLayout>
+        <div class="flex justify-end mt-6 mx-12">
+            <Button
+                :iconPosition="'left'"
+                :icon="ArrowLeftIcon"
+                :route-name="'microsites.index'"
+                :icon-position="'left'"
+            >
+                Back
+            </Button>
+        </div>
+        <div class="mt-6 mx-[450px] p-8 bg-white rounded-md shadow-ls">
+            <div class="mb-6 text-center">
+                <SPageTitle> {{ microsite.name }}</SPageTitle>
+            </div>
+            <form @submit.prevent="submit">
+                <div class="flex">
+                    <div class="mr-4 w-full">
+                        <SInputBlock
+                            label="name"
+                            :errorText="form.errors.payer_name"
+                            name="name"
+                            id="name"
+                            placeholder="John"
+                            v-model="form.payer_name"
+                        >
+                        </SInputBlock>
+                    </div>
+                    <div class="ml-4 w-full">
+                        <SInputBlock
+                            label="last_name"
+                            :errorText="form.errors.payer_last_name"
+                            name="last_name"
+                            id="last_name"
+                            placeholder="Doe"
+                            v-model="form.payer_last_name"
+                        >
+                        </SInputBlock>
+                    </div>
+                </div>
+                <div class="flex my-6">
+                    <div class="mr-4 w-full">
+                        <SSelectBlock
+                            id="payer_document_type"
+                            :errorText="form.errors.payer_document_type"
+                            placeholder="Select one option"
+                            label="payer_document_type"
+                            v-model="form.payer_document_type"
+                        >
+                            <option v-for="(value, key) in documentTypes" :key="key" :value="value">
+                                {{ value }}
+                            </option>
+                        </SSelectBlock>
+                    </div>
+                    <div class="ml-4 w-full">
+                        <SInputBlock
+                            label="document"
+                            :errorText="form.errors.payer_document"
+                            name="slug"
+                            id="slug"
+                            v-model="form.payer_document"
+                        >
+                        </SInputBlock>
+                    </div>
+                </div>
+                <div class="flex">
+                    <div class="mr-4 w-full">
+                        <SInputBlock
+                            :left-icon="EnvelopeIcon"
+                            label="email"
+                            :errorText="form.errors.payer_email"
+                            name="email"
+                            id="email"
+                            placeholder="John.doe@test.com"
+                            v-model="form.payer_email"
+                        >
+                        </SInputBlock>
+                    </div>
+                    <div class="ml-4 w-full">
+                        <SInputBlock
+                            prefix="+57"
+                            label="phone_number"
+                            :errorText="form.errors.phone_number"
+                            name="phone_number"
+                            id="phone_number"
+                            placeholder="311765342"
+                            v-model="form.phone_number"
+                        >
+                        </SInputBlock>
+                    </div>
+                </div>
+                <div class="flex my-6">
+                    <div class="mr-4 w-full">
+                        <SSelectBlock
+                            id="currency"
+                            :errorText="form.errors.currency"
+                            placeholder="Select one option"
+                            label="currency"
+                            v-model="form.currency"
+                        >
+                            <option v-for="(value, key) in currencyTypes" :key="key" :value="value">
+                                {{ value }}
+                            </option>
+                        </SSelectBlock>
+                    </div>
+                    <div class="w-full">
+                        <SInputBlock
+                            :left-icon="CurrencyDollarIcon"
+                            label="amount"
+                            :errorText="form.errors.amount"
+                            name="amount"
+                            id="amount"
+                            v-model="form.amount"
+                        >
+                        </SInputBlock>
+                    </div>
+                </div>
+                <div class="w-full">
+                    <SInputBlock
+                        :left-icon="InformationCircleIcon"
+                        label="reference"
+                        :errorText="form.errors.reference"
+                        name="last_name"
+                        id="last_name"
+                        placeholder="87dgr4syt421"
+                        v-model="form.reference"
+                    >
+                    </SInputBlock>
+                </div>
+                <div class="w-full my-6">
+                    <STextAreaBlock
+                        label="description"
+                        :errorText="form.errors.description"
+                        name="description"
+                        id="description"
+                        placeholder="des...."
+                        v-model="form.description"
+                    >
+                    </STextAreaBlock>
+                </div>
+                <SButton
+                    class="w-full my-6"
+                    type="submit"
+                >
+                    Pagar
+                </SButton>
+            </form>
+        </div>
+
+    </AuthenticatedLayout>
+</template>
+
 <script setup>
 import { defineProps } from 'vue';
 import {useForm} from "@inertiajs/vue3";
+import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
+import {SButton, SInputBlock, SPageTitle, SSelectBlock, STextAreaBlock} from "@placetopay/spartan-vue";
+import {route} from "ziggy-js";
+import {
+    ArrowLeftIcon,
+    CurrencyDollarIcon,
+    EnvelopeIcon,
+    InformationCircleIcon,
+    ReceiptPercentIcon
+} from "@heroicons/vue/24/outline/index.js";
+import Button from "@/Components/Atoms/Button.vue";
 
 const props = defineProps({
     microsite: {
@@ -8,127 +172,33 @@ const props = defineProps({
         required: true,
     },
     documentTypes: {
-        type: Array,
+        type: Object,
         required: true,
+    },
+    currencyTypes: {
+        type: Object,
+        required: true
     }
 });
 
 const form = useForm({
     payer_name: '',
+    payer_last_name: '',
     payer_document_type:'',
     payer_document:'',
     amount: '',
+    currency: '',
     payer_email:'',
+    phone_number: '',
+    reference: '',
+    description: '',
 });
 
 const submit = () => {
     form.post(route('payment.pay', props.microsite.id), {
         onSuccess: () => {
-            successMessage.value = 'Pago exitosamente';
-        },
-        onError: () => {
-            console.log('Error al pagar', form.errors);
+            form.reset()
         },
     });
 };
 </script>
-
-<template>
-    <div class="min-h-screen bg-gray-100 p-0 sm:p-12">
-        <div class="mx-auto max-w-3xl px-6 py-12 bg-white border-0 shadow-lg sm:rounded-3xl">
-            <h1 class="text-2xl font-bold mb-8">{{ microsite.name }}</h1>
-            <form @submit.prevent="submit">
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    <div class="relative z-0 w-full mb-5">
-                        <input
-                            type="text"
-                            name="name"
-                            placeholder="Nombre "
-                            required
-                            class="pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black border-gray-200"
-                            v-model="form.payer_name"
-                        />
-                        <span class="text-sm text-red-600 hidden" id="error">Name is required</span>
-                    </div>
-
-                    <div class="relative z-0 w-full mb-5">
-                        <input
-                            type="text"
-                            name="phone_number"
-                            placeholder="Número de Teléfono"
-                            v-model="form.phone_number"
-                            required
-                            class="pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black border-gray-200"
-                        />
-                        <span class="text-sm text-red-600 hidden" id="error">Phone number is required</span>
-                    </div>
-
-                    <div class="relative z-0 w-full mb-5">
-                        <select
-                            name="document_type"
-                            required
-                            v-model="form.payer_document_type"
-                            class="pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black border-gray-200"
-                        >
-                            <option value="" disabled selected hidden></option>
-                            <option v-for="(value, key) in documentTypes" :key="key" :value="key">
-                                {{ value }}
-                            </option>
-                        </select>
-                        <span class="text-sm text-red-600 hidden" id="error">Document type is required</span>
-                    </div>
-
-                    <div class="relative z-0 w-full mb-5">
-                        <input
-                            type="text"
-                            name="document"
-                            placeholder="Documento"
-                            v-model="form.payer_document"
-                            required
-                            class="pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black border-gray-200"
-                        />
-                        <span class="text-sm text-red-600 hidden" id="error">Document is required</span>
-                    </div>
-
-                    <div class="relative z-0 w-full mb-5 flex">
-                        <input
-                            type="number"
-                            name="amount"
-                            placeholder="Valor"
-                            v-model="form.amount"
-                            required
-                            class="pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black border-gray-200"
-                        />
-                        <span class="ml-2 mt-3 text-gray-500">{{ microsite.currency }}</span>
-                        <span class="text-sm text-red-600 hidden" id="error">Amount is required</span>
-                    </div>
-
-                    <div class="relative z-0 w-full mb-5">
-                        <input
-                            type="email"
-                            name="email"
-                            placeholder="Correo"
-                            v-model="form.payer_email"
-                            required
-                            class="pt-3 pb-2 block w-full px-0 mt-0 bg-transparent border-0 border-b-2 appearance-none focus:outline-none focus:ring-0 focus:border-black border-gray-200"
-                        />
-                        <span class="text-sm text-red-600 hidden" id="error">Email is required</span>
-                    </div>
-                </div>
-                <button
-                    id="button"
-                    type="submit"
-                    class="w-full px-6 py-3 mt-3 text-lg text-white transition-all duration-150 ease-linear rounded-lg shadow outline-none bg-blue-500 hover:bg-blue-700 hover:shadow-lg focus:outline-none"
-                >
-                    Pagar
-                </button>
-            </form>
-        </div>
-    </div>
-</template>
-
-
-
-<style scoped>
-/* Custom styles here */
-</style>

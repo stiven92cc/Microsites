@@ -1,0 +1,15 @@
+{
+    "language": {
+        "label": "English",
+        "en": "English",
+        "es": "Spanish"
+    },
+    "common": {
+        "microsites": "Microsites",
+        "login": "Login",
+        "password": "Password",
+        "email": "email",
+        "rememberme": "Remember me",
+        "forgot_your_password": "Forgot your password?"
+    }
+}

@@ -1,46 +1,96 @@
 <template>
     <AuthenticatedLayout>
-        <div class="my-8 max-w-md mx-auto p-8 bg-white rounded-md shadow-md">
-            <h2 class="text-2xl font-semibold mb-6">Usuarios</h2>
+        <div class="flex justify-end mt-6 mx-12">
+            <Button
+                :iconPosition="'left'"
+                :icon="ArrowLeftIcon"
+                :route-name="'users.index'"
+                :icon-position="'left'"
+            >
+                Back
+            </Button>
+        </div>
+        <div class="mt-6 mx-[450px] p-8 bg-white rounded-md shadow-ls">
+            <div class="my-1.5">
+                <SPageTitle>Create new user</SPageTitle>
+            </div>
             <form @submit.prevent="submit">
-                <div class="mb-4">
-                    <label for="name" class="block text-gray-700 text-sm font-bold mb-2">Name</label>
-                    <input type="text" id="name" name="name" v-model="form.name" required
-                           class="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500">
-                </div>
-                <div class="mb-4">
-                    <label for="email" class="block text-gray-700 text-sm font-bold mb-2">Email</label>
-                    <input type="text" id="email" name="email" v-model="form.email" required
-                           class="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500">
-                </div>
-                <div class="mb-4">
-                    <label for="role" class="block text-gray-700 text-sm font-bold mb-2">Role</label>
-                    <select  v-model="form.role" name="role" id="role" class="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500">
-                        <option
-                            name="role"
-                            v-for="role in props.roles"
-                            :value="role.name"
+                <div class="flex">
+                    <div class="mr-4 w-full">
+                        <SInputBlock
+                            label="name"
+                            :errorText="form.errors.name"
+                            name="name"
+                            id="name"
+                            placeholder="John Doe"
+                            v-model="form.name"
                         >
-                            {{role.name}}
+                        </SInputBlock>
+                    </div>
+                    <div class="ml-4 w-full">
+                        <SInputBlock
+                            :left-icon="EnvelopeIcon"
+                            label="email"
+                            :errorText="form.errors.email"
+                            name="email"
+                            id="email"
+                            v-model="form.email"
+                        >
+                        </SInputBlock>
+                    </div>
+                </div>
+                <div class="flex my-6">
+                    <div class="mr-4 w-full">
+                        <label class="text-sm" for="password">password</label>
+                        <SInput
+                            :left-icon="KeyIcon"
+                            type="password"
+                            label="password"
+                            :errorText="form.errors.con"
+                            name="name"
+                            id="name"
+                            placeholder="*********"
+                            v-model="form.password"
+                        >
+                        </SInput>
+                    </div>
+                    <div class="ml-4 w-full">
+                        <label class="text-sm" for="password">confirm_password</label>
+                        <SInput
+                            :left-icon="KeyIcon"
+                            type="confirm_password"
+                            label="confirm_password"
+                            :errorText="form.errors.confirm_password"
+                            name="confirm_password"
+                            id="name"
+                            placeholder="*********"
+                            v-model="form.confirm_password"
+                        >
+                        </SInput>
+                    </div>
+                </div>
+                <div class="mr-4 w-full">
+                    <SSelectBlock
+                        id="role"
+                        :errorText="form.errors.role"
+                        placeholder="Select one option"
+                        label="role"
+                        v-model="form.role"
+                    >
+                        <option v-for="(value, key) in roles" :key="key" :value="value.name">
+                            {{ value.name }}
                         </option>
-                    </select>
+                    </SSelectBlock>
                 </div>
 
-                <div class="mb-4">
-                    <label for="password" class="block text-gray-700 text-sm font-bold mb-2">Password</label>
-                    <input type="password" id="password" name="password" v-model="form.password" required
-                           class="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500">
-                </div>
-                <div class="mb-4">
-                    <label for="confirm_password" class="block text-gray-700 text-sm font-bold mb-2">Confirm Password</label>
-                    <input type="password" id="confirm_password" name="confirm_password" v-model="form.confirm_password" required
-                           class="w-full px-3 py-2 border rounded-md focus:outline-none focus:border-blue-500">
-                </div>
+                <div class="flex justify-end">
+                    <SButton
+                        class="bg-orange-500 hover:bg-orange-400 mt-6"
+                        type="submit"
+                    >Create
+                    </SButton>
 
-                <button type="submit"
-                        class="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 focus:outline-none focus:shadow-outline-blue">
-                    Create
-                </button>
+                </div>
             </form>
         </div>
     </AuthenticatedLayout>
@@ -48,10 +98,13 @@
 </template>
 
 <script setup>
-
-import { ref, watch } from 'vue';
-import { useForm, usePage } from '@inertiajs/vue3';
+import { useForm } from '@inertiajs/vue3';
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
+import {route} from "ziggy-js";
+import {ArrowLeftIcon, ArrowUpCircleIcon, EnvelopeIcon, KeyIcon} from "@heroicons/vue/24/outline/index.js";
+import Button from "@/Components/Atoms/Button.vue";
+import {SButton, SInput, SInputBlock, SPageTitle, SSelectBlock} from "@placetopay/spartan-vue";
+import InputMessageError from "@/Layouts/InputMessageError.vue";
 
 
 const form = useForm({
@@ -71,9 +124,6 @@ const submit = () => {
     form.post(route('users.store'), {
         onSuccess: () => {
             form.reset();
-        },
-        onError: () => {
-            console.log('Errores al enviar el formulario', form.errors);
         },
     });
 };

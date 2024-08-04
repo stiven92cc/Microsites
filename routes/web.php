@@ -22,6 +22,8 @@ Route::get('/dashboard', function () {
 
 Route::middleware('auth')->group(function () {
     Route::resource('microsites', MicrositesController::class);
+    Route::post('store/microsite/logo{id}', [MicrositesController::class, 'update'])
+            ->name('microsites.update.temp');
     Route::resource('categories', CategoryController::class);
     Route::resource('users', UsersController::class);
     Route::resource('roles', RolesController::class);

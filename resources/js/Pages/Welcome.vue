@@ -21,7 +21,6 @@ const props = defineProps({
     search: String,
 });
 
-// Define searchQuery ref using props.search
 const searchQuery = ref(props.search || '');
 
 const searchMicrosites = () => {

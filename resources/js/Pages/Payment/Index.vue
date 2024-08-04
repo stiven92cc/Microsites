@@ -1,13 +1,31 @@
+<template>
+    <AuthenticatedLayout>
+        <template #header>
+            <div class="flex">
+                <h2 class="font-semibold text-xl text-gray-800 leading-tight">Payments</h2>
+            </div>
+        </template>
+        <pre>{{props.payments}}</pre>
+        <DataTable
+            :cols="cols"
+            :data="payments"
+        />
+    </AuthenticatedLayout>
+</template>
+
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import DataTable from "@/Components/Molecules/DataTable.vue";
-import Button from "@/Components/Atoms/Button.vue";
 import { h } from 'vue';
 import { router } from '@inertiajs/vue3';
 import {EyeIcon} from "@heroicons/vue/24/outline/index.js";
 
-defineProps({ payments: Array });
-
+const props = defineProps({
+    payments: {
+        type: Object,
+    }
+});
+console.log(props.payments)
 const columns = [
     { key: 'id', label: '#' },
     { key: 'reference', label: 'Reference' },
@@ -35,18 +53,3 @@ const columns = [
     },
 ];
 </script>
-
-<template>
-    <AuthenticatedLayout>
-        <template #header>
-            <div class="flex">
-                <h2 class="font-semibold text-xl text-gray-800 leading-tight">Payments</h2>
-            </div>
-        </template>
-        <DataTable :columns="columns" :rows="payments" />
-    </AuthenticatedLayout>
-</template>
-
-<style scoped>
-
-</style>
