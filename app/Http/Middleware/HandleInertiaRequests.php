@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Constants\Permissions;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
 
@@ -34,6 +35,7 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
                 'permissionsJs' => json_decode(auth()->check() ? auth()->user()->jsPermissions() : '{}', true),
+                'allPermissions' => Permissions::getAllPermissions(),
             ],
         ];
     }

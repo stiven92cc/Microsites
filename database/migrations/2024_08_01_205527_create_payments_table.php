@@ -1,5 +1,6 @@
 <?php
 
+use App\Constants\PaymentStatus;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -10,17 +11,20 @@ class CreatePaymentsTable extends Migration
     {
         Schema::create('payments', function (Blueprint $table) {
             $table->id();
-            $table->string('reference', 40)->unique();
+            $table->string('reference', 40);
             $table->string('receipt')->nullable();
             $table->string('payer_document')->nullable();
             $table->string('payer_document_type')->nullable();
             $table->string('payer_email')->nullable();
             $table->string('payer_name')->nullable();
+            $table->string('payer_last_name')->nullable();
             $table->string('payer_ip')->nullable();
+            $table->string('phone_number')->nullable();
             $table->string('description')->nullable();
+            $table->string('currency')->nullable();
             $table->unsignedInteger('amount');
-            $table->string('status')->nullable();
             $table->timestamp('paid_at')->nullable();
+            $table->enum('status', PaymentStatus::getPaymentStatus())->default(PaymentStatus::PENDING->value)->nullable();
             $table->string('process_url', 255)->nullable();
             $table->string('request_id', 255)->nullable();
             $table->unsignedBigInteger('user_id')->nullable();

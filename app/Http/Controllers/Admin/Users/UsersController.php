@@ -42,7 +42,11 @@ class UsersController extends Controller
     {
         $this->authorize('edit', User::class);
         $user = User::find($id);
-        return Inertia::render('Users/Edit', compact('user'));
+        $roles = Role::all();
+        return Inertia::render('Users/Edit', [
+            'user' => $user,
+            'roles' => $roles,
+        ]);
     }
 
     public function update(Request $request, User $user): RedirectResponse

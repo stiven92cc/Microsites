@@ -1,16 +1,26 @@
 <template>
     <AuthenticatedLayout>
         <template #header>
-            <div class="flex">
-                <h2 class="font-semibold text-xl text-gray-800 leading-tight">Roles</h2>
+            <div>
+                <SPageTitle>Roles</SPageTitle>
             </div>
         </template>
 
-        <div class="flex justify-end w-full">
-            <Button class="mx-8 my-2" routeName="roles.create" text="Create" />
+        <div v-if="can('roles.create')" class="flex justify-end m-6">
+            <Button
+                :icon="PlusCircleIcon"
+                :classes="'bg-orange-500 hover:bg-orange-400'"
+                :route-name="'roles.create'"
+            >
+                {{ $t('common.create') }}
+            </Button>
         </div>
 
-        <DataTable :columns="columns" :rows="props.roles"/>
+        <DataTable
+            :cols="cols"
+            :data="props.roles"
+            :actions="actions"
+        />
     </AuthenticatedLayout>
 </template>
 
@@ -20,35 +30,21 @@ import DataTable from "@/Components/Molecules/DataTable.vue";
 import Button from "@/Components/Atoms/Button.vue";
 import {h} from "vue";
 import {router} from "@inertiajs/vue3";
-import {PencilIcon, TrashIcon} from "@heroicons/vue/24/outline/index.js";
+import {PencilIcon, PlusCircleIcon, TrashIcon} from "@heroicons/vue/24/outline/index.js";
+import {SPageTitle} from "@placetopay/spartan-vue";
 
 const props = defineProps({
     roles: {type: Object}
-})
+});
 
-const columns = [
-    { key: 'id', label: '#' },
-    { key: 'name', label: 'Name' },
-    {
-        key: 'actions',
-        label: 'Actions',
-        formatter: (value, row) => ({
-            render() {
-                return h('div', {
-                    class: 'flex'
-                }, [
-                    h(PencilIcon,{
-                        onClick: () => router.get(`/roles/${row.id}/edit`),
-                        class: 'h-5 w-5 text-gray-400 hover:text-gray-800 mr-2 cursor-pointer',
-                    }),
-                    h(TrashIcon,{
-                        onClick: () => router.delete(`/roles/${row.id}`),
-                        class: 'h-5 w-5 text-gray-400 hover:text-red-500 mr-2 cursor-pointer',
-                    })
-                ])
-            }
-        })
-    },
-
+const cols = [
+    "id",
+    "name",
+    "actions",
 ];
+
+const actions = {
+    edit:"roles.edit",
+    destroy:"roles.destroy",
+}
 </script>

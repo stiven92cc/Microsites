@@ -6,11 +6,21 @@
             </div>
         </template>
 
-        <div class="flex justify-end w-full">
-            <Button class="mx-8 my-2" routeName="categories.create" text="Create" />
+        <div v-if="can('microsites.create')" class="flex justify-end m-6">
+            <Button
+                :icon="PlusCircleIcon"
+                :classes="'bg-orange-500 hover:bg-orange-400'"
+                :route-name="'categories.create'"
+            >
+                {{ $t('common.create') }}
+            </Button>
         </div>
 
-        <DataTable :columns="columns" :rows="categories" />
+        <DataTable
+            :data="props.categories"
+            :cols="cols"
+            :actions="actions"
+        />
     </AuthenticatedLayout>
 </template>
 
@@ -18,38 +28,22 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import DataTable from "@/Components/Molecules/DataTable.vue";
 import Button from "@/Components/Atoms/Button.vue";
-import { h } from 'vue';
-import { router } from '@inertiajs/vue3';
-import {PencilIcon, TrashIcon} from "@heroicons/vue/24/outline/index.js";
+import {PlusCircleIcon} from "@heroicons/vue/24/outline/index.js";
 
-defineProps({ categories: Array });
+const props = defineProps({
+    categories: Object
+});
 
-const columns = [
-    { key: 'id', label: '#' },
-    { key: 'name', label: 'Name' },
-    { key: 'description', label: 'Description' },
-    { key: 'alias', label: 'Alias' },
-    { key: 'created_at', label: 'Created At' },
-    {
-        key: 'actions',
-        label: 'Actions',
-        formatter: (value, row) => ({
-            render() {
-                return h('div', {
-                    class: 'flex'
-                }, [
-                    h(PencilIcon,{
-                        onClick: () => router.get(`/categories/${row.id}/edit`),
-                        class: 'h-5 w-5 text-gray-400 hover:text-gray-800 mr-2 cursor-pointer',
-                    }),
-                    h(TrashIcon,{
-                        onClick: () => router.delete(`/categories/${row.id}`),
-                        class: 'h-5 w-5 text-gray-400 hover:text-red-500 mr-2 cursor-pointer',
-                    })
-                ])
-            }
-        })
-    },
-
+const cols = [
+    "id",
+    "name",
+    "description",
+    "alias",
+    "actions",
 ];
+
+const actions = {
+    edit:"categories.edit",
+    destroy:"categories.destroy",
+}
 </script>

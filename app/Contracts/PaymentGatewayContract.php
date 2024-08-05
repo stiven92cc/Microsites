@@ -9,5 +9,5 @@ interface PaymentGatewayContract
 {
     public function connection(array $settings): self;
     public function createSession(Payment $payment, Request $request);
-    public function queryPayment(Payment $payment): Payment;
+    public function query(Payment $payment): Payment;
 }

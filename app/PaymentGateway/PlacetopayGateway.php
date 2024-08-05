@@ -2,76 +2,88 @@
 
 namespace App\PaymentGateway;
 
-use App\Actions\Payment\ConsultPaymentAction;
-use App\Actions\Payment\ProcessPaymentResponseAction;
-use App\Actions\Payment\StorePaymentAction;
+
+use App\Constants\PaymentStatus;
 use App\Contracts\PaymentGatewayContract;
-use App\Exceptions\GatewayException;
-use App\Helpers\ShoppingCart\ShoppingCartTotalHelper;
-use App\Models\ShoppingCart;
+use Dnetix\Redirection\Entities\Transaction;
+use Dnetix\Redirection\Message\RedirectResponse;
 use Dnetix\Redirection\PlacetoPay;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use App\Infrastructure\Persistence\Models\Payment;
+use Illuminate\Support\Carbon;
 use Throwable;
 
 class PlacetopayGateway implements PaymentGatewayContract
 {
-    protected PlacetoPay $placetopay;
+    public PlacetoPay $placetopay;
 
     public function connection(array $settings): self
     {
-        $this->placetopay = new PlacetoPay([
+        $this->placetopay = $this->getPlacetoPay($settings);
+        return $this;
+    }
+
+    protected function getPlacetoPay(array $settings): PlacetoPay {
+        return new PlacetoPay([
             'login' => Arr::get($settings, 'login'),
             'tranKey' => Arr::get($settings, 'tranKey'),
             'baseUrl' => Arr::get($settings, 'baseUrl'),
             'timeout' => 10,
         ]);
-        return $this;
     }
-
     public function createSession(Payment $payment, Request $request)
     {
-        $totalPrice = $payment;
+        $totalPrice = $payment->amount;
         try {
             $request = [
                 'payment' => [
-                    'reference' => $payment->reference,
+                    'reference' => '12321313',
                     'description' => $payment->description,
                     'amount' => [
                         'currency' => 'COP',
                         'total' => $totalPrice,
                     ],
                 ],
-                'payer' => [
-                    'document' => $payment->user->document,
-                    'documentType' => 'CC',
-                    'name' => $payment->user->name,
-                    'surname' => $payment->user->surname,
-                    'email' => $payment->user->email,
-                    'mobile' => $payment->user->cellphone,
-                ],
                 'expiration' => date('c', strtotime('+30 minutes')),
-                'returnUrl' => route('payments.index'),
+                'returnUrl' => route('payment.detail', $payment->id),
                 'ipAddress' => $request->ip(),
                 'userAgent' => $request->userAgent(),
             ];
+            /** @var RedirectResponse $response */
             $response = $this->placetopay->request($request);
-            return ProcessPaymentResponseAction::execute($response, $payment);
+
+            if ($response->isSuccessful()) {
+                $payment->process_url = $response->processUrl();
+                $payment->request_id = $response->requestId();
+                $payment->status = 'pending';
+                $payment->save();
+            } else {
+                $payment->status = 'rejected';
+                $payment->save();
+            }
+
+            return $payment;
         } catch (Throwable $exception) {
             report($exception);
-            throw new GatewayException($exception->getMessage());
         }
     }
 
-    public function queryPayment(Payment $payment): Payment
+    public function query(Payment $payment): Payment
     {
         $response = $this->placetopay->query($payment->request_id);
         try {
-            ConsultPaymentAction::consult($response, $payment);
+            if ($response->isSuccessful()) {
+                if ($response->status()->isApproved()) {
+                    $payment->status = PaymentStatus::APPROVED->value;
+                    $payment->paid_at = new Carbon($response->status()->date());
+                    $payment->receipt = $response->lastApprovedTransaction()->receipt();
+                } elseif ($response->status()->isRejected()) {
+                    $payment->status = PaymentStatus::REJECTED->value;
+                }
+                $payment->save();
+            }
         } catch (Throwable $exception) {
-            report($exception);
-            throw new GatewayException($exception->getMessage());
         }
         return $payment;
     }

@@ -2,9 +2,12 @@
 
 namespace Tests\Feature\Categories;
 
+use App\Constants\Permissions;
 use App\Infrastructure\Persistence\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use PHPUnit\Framework\Attributes\DataProvider;
+use Spatie\Permission\Models\Permission;
+use Spatie\Permission\Models\Role;
 use Tests\TestCase;
 
 class CategoryControllerTest extends TestCase
@@ -13,8 +16,16 @@ class CategoryControllerTest extends TestCase
 
     public function test_can_store_category(): void
     {
+        if (!Permission::where('name', Permissions::CATEGORIES_STORE)->exists()) {
+            Permission::create(['name' => Permissions::CATEGORIES_STORE, 'guard_name' => 'web']);
+        }
+
+        $role = Role::findOrCreate('super_admin', 'web');
+        $role->givePermissionTo(Permissions::CATEGORIES_STORE);
+
         $user = User::factory()->create();
 
+        $user->assignRole($role);
         $data = [
             'name' => 'technology',
             'alias' => 'technology',
@@ -52,7 +63,6 @@ class CategoryControllerTest extends TestCase
     }
 
 
-    ##ELIMINAR ESTE TEST, SOLO MIRAR
     #[DataProvider('invalidData')]
     public function test_can_not_store_category_if_has_invalid_data($key, $value): void
     {

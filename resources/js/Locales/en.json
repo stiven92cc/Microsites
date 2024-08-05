@@ -1,0 +1,161 @@
+{
+    "language": {
+        "label": "English",
+        "en": "English",
+        "es": "Spanish"
+    },
+    "common": {
+        "microsites": "Microsites",
+        "login": "Login",
+        "password": "Password",
+        "email": "email",
+        "rememberme": "Remember me",
+        "forgot_your_password": "Forgot your password?",
+        "welcome_to_microsites": "Welcome to microsites",
+        "create": "Create",
+        "edit": "Edit",
+        "back": "Back",
+        "name": "Name",
+        "slug": "Slug",
+        "category_id": "Category",
+        "type": "Type",
+        "currency": "Currency",
+        "actions": "Actions",
+        "id": "ID",
+        "description": "Description",
+        "alias": "Alias",
+        "admin": "Administrator",
+        "guest": "Guest",
+        "reference": "Reference",
+        "payer_document_type": "Document type",
+        "payer_document": "Document number",
+        "status": "Status",
+        "payer_name": "Name",
+        "return": "Return to merchant",
+        "payment_retry":"Payment retry",
+        "payment_summary": "Payment summary"
+    },
+    "modules" : {
+        "home": "Home",
+        "microsites": "Microsites",
+        "categories": "Categories",
+        "users": "Users",
+        "Roles": "Roles",
+        "payments": "Payments"
+    },
+    "microsites": {
+        "create_new_microsite": "Create new microsite",
+        "edit_microsite": "Edit microsite",
+        "types": {
+            "donation": "Donation",
+            "invoice": "Invoice",
+            "subscription": "Subscription"
+        },
+        "forms": {
+            "name": "Name",
+            "slug": "Slug",
+            "type": "Type",
+            "category_id": "Category",
+            "currency": "Currency",
+            "payment_expiration": "Payment expiration",
+                "input_logo": {
+                    "select_logo": "Select one logo",
+                    "only_upload_png_and_jpg": "Only upload PNG and JPG"
+            },
+            "payment_form": {
+                "name": "Name",
+                "last_name": "Last name",
+                "document_type": "Document type",
+                "document_number": "Document number",
+                "email": "Email",
+                "phone_number": "Phone number",
+                "payment": "payment",
+                "amount": "Value to payment",
+                "currency": "Currency",
+                "reference": "Reference",
+                "description": "Description"
+            }
+        },
+        "show": {
+            "name": "Name",
+            "category": "Category",
+            "type": "Type",
+            "slug": "Slug",
+            "currency": "Currency",
+            "payment_expiration": "Payment expiration",
+            "created_at": "Crated date",
+            "updated_at": "Updated date",
+            "logo": "Logotype"
+        }
+    },
+    "categories": {
+        "create_new_category": "Create new category",
+        "forms": {
+            "name": "Name",
+            "alias": "Alias",
+            "description": "Description"
+        }
+    },
+    "users": {
+        "create_new_user": "Create new user",
+        "forms": {
+            "name": "Name",
+            "email": "Email",
+            "password": "Password",
+            "confirm_password": "Confirm password",
+            "role": "Role"
+        }
+    },
+    "roles": {
+        "create_new_rol": "Create new rol",
+        "edit_role": "Edit role",
+        "roles_base": {
+            "admin": "Administrator",
+            "guest": "Guest"
+        },
+        "forms": {
+            "name": "Name",
+            "group_roles": {
+                "users": "Users",
+                "microsites": "Microsites",
+                "categories": "Categories",
+                "roles": "Roles",
+                "payments": "Payments"
+            },
+            "permissions": {
+                "index": "Index",
+                "create": "Create form",
+                "store": "Store",
+                "update": "Update",
+                "edit": "Edit form",
+                "show": "Show",
+                "destroy": "Delete"
+            }
+
+        }
+    },
+    "payments": {
+        "status": {
+            "PENDING": "Pending",
+            "APPROVED": "Approved",
+            "REJECTED":  "Rejected",
+            "APPROVED_PARTIAL": "Approved partial",
+            "PARTIAL_EXPIRED":  "Partial expired",
+            "UNKNOWN": "Unknown"
+        },
+        "show": {
+            "payer_name": "Payer's Name",
+            "payer_document": "Payer's Document",
+            "reference": "Payment Reference",
+            "payer_email": "Email",
+            "phone_number": "Contact Phone Number",
+            "description": "Payment Description",
+            "currency": "Currency",
+            "amount": "Total Paid",
+            "status_payment": "Payment Status",
+            "payment_date": "Payment Date",
+            "microsite": "Microsite",
+            "microsite_type": "Microsite Type"
+        }
+    }
+}

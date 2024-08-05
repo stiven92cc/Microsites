@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Roles;
 
+use App\Constants\Permissions;
 use App\Infrastructure\Persistence\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Foundation\Testing\WithFaker;
@@ -22,14 +23,29 @@ class StoreTest extends TestCase
         Permission::findOrCreate('microsites.index', 'web');
 
         $this->request = [
-            'name' => 'Admin',
-            'permissions' => 'microsites.index',
+            'name' => 'updated-role',
+            'guard_name' => 'web',
+            'permissions' => [
+                [
+                    'name' => Permissions::CATEGORIES_INDEX,
+                ],
+            ],
         ];
     }
 
     public function test_can_store_rol(): void
     {
+        Permission::create(['name' => Permissions::CATEGORIES_INDEX, 'guard_name' => 'web']);
+        if (!Permission::where('name', Permissions::ROLES_STORE)->exists()) {
+            Permission::create(['name' => Permissions::ROLES_STORE, 'guard_name' => 'web']);
+        }
+
+        $role = Role::findOrCreate('super_admin', 'web');
+        $role->givePermissionTo(Permissions::ROLES_STORE);
+
         $user = User::factory()->create();
+
+        $user->assignRole($role);
 
         $role = Role::findOrCreate('super_admin', 'web');
 

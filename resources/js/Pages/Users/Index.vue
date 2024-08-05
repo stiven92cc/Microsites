@@ -1,16 +1,24 @@
 <template>
     <AuthenticatedLayout>
         <template #header>
-            <div class="flex">
-                <h2 class="font-semibold text-xl text-gray-800 leading-tight">Usuarios</h2>
-            </div>
+            <SPageTitle>Users</SPageTitle>
         </template>
 
-        <div class="flex justify-end w-full">
-            <Button class="mx-8 my-2" routeName="users.create" text="Create" />
+        <div v-if="can('users.create')" class="flex justify-end m-6">
+            <Button
+                :icon="PlusCircleIcon"
+                :classes="'bg-orange-500 hover:bg-orange-400'"
+                :route-name="'users.create'"
+            >
+                {{ $t('common.create') }}
+            </Button>
         </div>
 
-<DataTable :columns="columns" :rows="props.users"/>
+    <DataTable
+        :cols="cols"
+        :data="props.users"
+        :actions="actions"
+    />
     </AuthenticatedLayout>
 </template>
 
@@ -18,43 +26,24 @@
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import DataTable from "@/Components/Molecules/DataTable.vue";
 import Button from "@/Components/Atoms/Button.vue";
-import {h} from "vue";
-import {router} from "@inertiajs/vue3";
-import {PencilIcon, TrashIcon} from "@heroicons/vue/24/outline/index.js";
+import {SPageTitle} from "@placetopay/spartan-vue";
+import {PlusCircleIcon} from "@heroicons/vue/24/outline/index.js";
 
 const props = defineProps({
     users: {type: Object}
-})
+});
 
-console.log(props.users)
-
-
-const columns = [
-    { key: 'id', label: '#' },
-    { key: 'name', label: 'Name' },
-    { key: 'email', label: 'Email' },
-    {
-        key: 'actions',
-        label: 'Actions',
-        formatter: (value, row) => ({
-            render() {
-                return h('div', {
-                    class: 'flex'
-                }, [
-                    h(PencilIcon,{
-                        onClick: () => router.get(`/users/${row.id}/edit`),
-                    class: 'h-5 w-5 text-gray-400 hover:text-gray-800 mr-2 cursor-pointer',
-                    }),
-                    h(TrashIcon,{
-                        onClick: () => router.delete(`/users/${row.id}`),
-                        class: 'h-5 w-5 text-gray-400 hover:text-red-500 mr-2 cursor-pointer',
-                    })
-                ])
-            }
-        })
-    },
-
+const cols = [
+    "id",
+    "name",
+    "email",
+    "actions",
 ];
+
+const actions = {
+    edit:"users.edit",
+    destroy:"users.destroy",
+}
 </script>
 
 

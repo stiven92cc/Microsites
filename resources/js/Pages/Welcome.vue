@@ -2,6 +2,7 @@
 import { Head, Link } from '@inertiajs/vue3';
 import { Inertia } from '@inertiajs/inertia';
 import { ref } from 'vue';
+import {route} from "ziggy-js";
 
 const props = defineProps({
     canLogin: Boolean,
@@ -21,7 +22,6 @@ const props = defineProps({
     search: String,
 });
 
-// Define searchQuery ref using props.search
 const searchQuery = ref(props.search || '');
 
 const searchMicrosites = () => {
@@ -91,17 +91,19 @@ const searchMicrosites = () => {
                             <div class="mt-8 grid grid-cols-1 gap-8 md:grid-cols-2 xl:mt-16 xl:grid-cols-4">
                                 <div v-for="microsite in microsites" :key="microsite.id"
                                      class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                                    <div
-                                        class="group flex transform cursor-pointer flex-col items-center rounded-xl p-8 transition-colors duration-300 hover:bg-blue-600 border-2 border-gray-300 bg-gray-50">
-                                        <img class="h-32 w-32 rounded-full object-cover ring-4 ring-gray-300"
-                                             :src="microsite.logo ? `/storage/${microsite.logo}` : 'https://www.palomacornejo.com/wp-content/uploads/2021/08/no-image.jpg'"
-                                             alt="logo del micrositio"/>
+                                    <Link :href="route('payment.form', microsite.id)">
+                                        <div
+                                            class="group flex transform cursor-pointer flex-col items-center rounded-xl p-8 transition-colors duration-300 hover:bg-blue-600 border-2 border-gray-300 bg-gray-50">
+                                            <img class="h-32 w-32 rounded-full object-cover ring-4 ring-gray-300"
+                                                 :src="microsite.logo ? `/storage/${microsite.logo}` : 'https://www.palomacornejo.com/wp-content/uploads/2021/08/no-image.jpg'"
+                                                 alt="logo del micrositio"/>
 
-                                        <h1 class="text-center mt-4 text-2xl font-semibold capitalize text-gray-700 group-hover:text-white dark:text-white">
-                                            {{ microsite.name }}</h1>
-                                        <p class="mt-2 capitalize text-gray-500 group-hover:text-gray-300 dark:text-gray-300">
-                                            {{ microsite.category.name }}</p>
-                                    </div>
+                                            <h1 class="text-center mt-4 text-2xl font-semibold capitalize text-gray-700 group-hover:text-white dark:text-white">
+                                                {{ microsite.name }}</h1>
+                                            <p class="mt-2 capitalize text-gray-500 group-hover:text-gray-300 dark:text-gray-300">
+                                                {{ microsite.category.name }}</p>
+                                        </div>
+                                    </Link>
                                 </div>
                             </div>
                         </div>

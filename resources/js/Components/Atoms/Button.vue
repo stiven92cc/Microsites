@@ -1,16 +1,38 @@
 <template>
-    <button @click="navigate" class="bg-blue-700 text-white px-4 py-2 mx-24 rounded hover:bg-blue-800">
-        {{ text }}
-    </button>
+    <SButton
+        @click="navigate"
+        :class="classes"
+        :right-icon="iconPosition === 'right' ? icon : null"
+        :left-icon="iconPosition === 'left' ? icon : null"
+    >
+        <slot></slot>
+    </SButton>
 </template>
 
 <script setup>
 import { router } from '@inertiajs/vue3';
 import { defineProps } from 'vue';
+import { SButton } from "@placetopay/spartan-vue";
+import { route } from "ziggy-js";
 
 const props = defineProps({
-    routeName: String,
-    text: String
+    routeName: {
+        type: String
+    },
+    text: {
+        type: String
+    },
+    icon: {
+        type: Function
+    },
+    iconPosition: {
+        type: String,
+        default: 'right',
+        validator: value => ['left', 'right'].includes(value)
+    },
+    classes: {
+        type: String
+    }
 });
 
 const navigate = () => {

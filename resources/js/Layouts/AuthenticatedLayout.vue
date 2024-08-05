@@ -6,6 +6,8 @@ import DropdownLink from '@/Components/DropdownLink.vue';
 import NavLink from '@/Components/NavLink.vue';
 import ResponsiveNavLink from '@/Components/ResponsiveNavLink.vue';
 import {Link, usePage} from '@inertiajs/vue3';
+import ChangeLocale from "@/Components/Molecules/ChangeLocale.vue";
+import {route} from "ziggy-js";
 
 const showingNavigationDropdown = ref(false);
 const page = usePage();
@@ -37,42 +39,49 @@ watchEffect(() => {
                             <!-- Navigation Links -->
                             <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                 <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                                    Inicio
+                                    {{ $t('modules.home') }}
                                 </NavLink>
                             </div>
 
                             <div v-if="can('microsites.index')" class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                 <NavLink :href="route('microsites.index')" :active="route().current('microsites.index')">
-                                    Micrositios
+                                    {{ $t('modules.microsites') }}
                                 </NavLink>
                             </div>
 
                             <div v-if="can('categories.index')" class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                 <NavLink :href="route('categories.index')" :active="route().current('categories.index')">
-                                    Categorias
+                                    {{ $t('modules.categories') }}
                                 </NavLink>
                             </div>
                             <div v-if="can('users.index')" class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                 <NavLink :href="route('users.index')" :active="route().current('users.index')">
-                                    Usuarios
+                                    {{ $t('modules.users') }}
                                 </NavLink>
                             </div>
                             <div v-if="can('roles.index')" class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                 <NavLink :href="route('roles.index')" :active="route().current('roles.index')">
-                                    Roles
+                                    {{ $t('modules.roles') }}
+                                </NavLink>
+                            </div>
+                            <div v-if="can('payments.index')" class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                                <NavLink :href="route('payments.index')" :active="route().current('payments.index')">
+                                    {{ $t('modules.payments') }}
                                 </NavLink>
                             </div>
                         </div>
 
                         <div class="hidden sm:flex sm:items-center sm:ms-6">
-                            <!-- Settings Dropdown -->
-                            <div class="ms-3 relative">
+                            <div class="ms-3 flex">
+                                <div class="mx-12 text-gray-500">
+                                    <ChangeLocale/>
+                                </div>
                                 <Dropdown align="right" width="48">
                                     <template #trigger>
                                         <span class="inline-flex rounded-md">
                                             <button
                                                 type="button"
-                                                class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
+                                                class="inline-flex items-center border border-transparent text-sm leading-4 font-medium rounded-md text-gray-500 bg-white hover:text-gray-700 focus:outline-none transition ease-in-out duration-150"
                                             >
                                                 {{ $page.props.auth.user.name }}
 

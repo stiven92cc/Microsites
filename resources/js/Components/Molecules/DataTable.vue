@@ -1,46 +1,107 @@
 <template>
-    <div class="flex flex-col mx-24">
-        <div class="overflow-x-auto sm:mx-0.5 lg:mx-0.5">
-            <div class="py-2 inline-block min-w-full sm:px-6 lg:px-8">
-                <div class="overflow-hidden">
-                    <table class="min-w-full">
-                        <thead class="bg-gray-200 border-b">
-                        <tr>
-                            <th v-for="column in columns" :key="column.key" class="text-sm font-medium text-gray-900 px-6 py-4 text-left">
-                                {{ column.label }}
-                            </th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <tr v-for="(row, rowIndex) in rows" :key="rowIndex" class="bg-white border-b transition duration-300 ease-in-out hover:bg-gray-100">
-                            <td v-for="column in columns" :key="column.key" class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
-                                <component :is="renderCell(row, column)" />
-                            </td>
-                        </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
+    <div class="mx-36">
+        <STable>
+            <STableHead>
+                <STableRow>
+                    <STableHeadCell v-for="col in cols" :key="col">{{ $t('common.' + col ) }}</STableHeadCell>
+                </STableRow>
+            </STableHead>
+
+            <STableBody>
+                <STableRow v-for="row in data" :key="row.id">
+                    <STableCell v-for="col in cols" :key="col">
+                        <template v-if="col === 'actions'">
+                            <div class="flex items-center space-x-1">
+                                <Link v-for="action in Object.keys(actions)" :key="action" :href="route(actions[action], { id: row.id })" :method="getMethod(action)">
+                                    <component :is="getIcon(action)" class="w-5 hover:text-orange-500" />
+                                </Link>
+                            </div>
+                        </template>
+                        <template v-else>
+                            {{ translateValue(row[col]) }}
+                        </template>
+                    </STableCell>
+                </STableRow>
+            </STableBody>
+        </STable>
     </div>
 </template>
 
 <script setup>
-import { defineProps, h } from 'vue';
+import { defineProps } from 'vue';
+import { STable, STableBody, STableCell, STableHead, STableHeadCell, STableRow } from "@placetopay/spartan-vue";
+import { PencilIcon, EyeIcon, TrashIcon, CreditCardIcon } from "@heroicons/vue/24/outline/index.js";
+import { Link } from "@inertiajs/vue3";
+import { route } from 'ziggy-js';
+import { usePage } from "@inertiajs/vue3";
+import {useI18n} from "vue-i18n";
+
+const { t } = useI18n();
+
+const page = usePage();
+const permissions = Object.values(page.props.auth.allPermissions).flat();
 
 const props = defineProps({
-    columns: Array,
-    rows: Array
+    data: {
+        type: Array,
+        required: true
+    },
+    cols: {
+        type: Array,
+        required: true
+    },
+    actions: {
+        type: Object,
+        required: true
+    }
 });
 
-const renderCell = (row, column) => {
-    if (column.formatter) {
-        return column.formatter(row[column.key], row);
+const translateValues = [
+    'subscription',
+    'donation',
+    'invoice',
+    'admin',
+    'guest',
+    'PENDING',
+    'APPROVED',
+    'REJECTED',
+    'APPROVED_PARTIAL',
+    'PARTIAL_EXPIRED',
+    'UNKNOWN',
+];
+
+const getIcon = (action) => {
+    switch (action) {
+        case 'edit':
+            return PencilIcon;
+        case 'show':
+            return EyeIcon;
+        case 'destroy':
+            return TrashIcon;
+        case 'payment':
+            return CreditCardIcon;
+        default:
+            return null;
     }
-    return {
-        render() {
-            return h('span', row[column.key]);
-        }
-    };
 };
+
+const getMethod = (action) => {
+    return action === 'destroy' ? 'delete' : 'get';
+};
+
+const translateValue = (value) => {
+    if (translateValues.includes(value)) {
+        if (t('microsites.types.' + value) !== 'microsites.types.' + value) {
+            return t('microsites.types.' + value);
+        }
+        if (t('roles.roles_base.' + value) !== 'roles.roles_base.' + value) {
+            return t('roles.roles_base.' + value);
+        }
+        if (t('payments.status.' + value) !== 'payments.status.' + value) {
+            return t('payments.status.' + value);
+        }
+    }
+    return value;
+};
+
 </script>
