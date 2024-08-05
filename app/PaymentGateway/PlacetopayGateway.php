@@ -5,6 +5,7 @@ namespace App\PaymentGateway;
 
 use App\Constants\PaymentStatus;
 use App\Contracts\PaymentGatewayContract;
+use Dnetix\Redirection\Entities\Transaction;
 use Dnetix\Redirection\Message\RedirectResponse;
 use Dnetix\Redirection\PlacetoPay;
 use Illuminate\Http\Request;
@@ -15,19 +16,22 @@ use Throwable;
 
 class PlacetopayGateway implements PaymentGatewayContract
 {
-    protected PlacetoPay $placetopay;
+    public PlacetoPay $placetopay;
 
     public function connection(array $settings): self
     {
-        $this->placetopay = new PlacetoPay([
+        $this->placetopay = $this->getPlacetoPay($settings);
+        return $this;
+    }
+
+    protected function getPlacetoPay(array $settings): PlacetoPay {
+        return new PlacetoPay([
             'login' => Arr::get($settings, 'login'),
             'tranKey' => Arr::get($settings, 'tranKey'),
             'baseUrl' => Arr::get($settings, 'baseUrl'),
             'timeout' => 10,
         ]);
-        return $this;
     }
-
     public function createSession(Payment $payment, Request $request)
     {
         $totalPrice = $payment->amount;
@@ -42,7 +46,7 @@ class PlacetopayGateway implements PaymentGatewayContract
                     ],
                 ],
                 'expiration' => date('c', strtotime('+30 minutes')),
-                'returnUrl' => route('welcome'),
+                'returnUrl' => route('payment.detail', $payment->id),
                 'ipAddress' => $request->ip(),
                 'userAgent' => $request->userAgent(),
             ];
@@ -73,7 +77,7 @@ class PlacetopayGateway implements PaymentGatewayContract
                 if ($response->status()->isApproved()) {
                     $payment->status = PaymentStatus::APPROVED->value;
                     $payment->paid_at = new Carbon($response->status()->date());
-                    $payment->receipt = Arr::get($response->payment(), 'receipt');
+                    $payment->receipt = $response->lastApprovedTransaction()->receipt();
                 } elseif ($response->status()->isRejected()) {
                     $payment->status = PaymentStatus::REJECTED->value;
                 }

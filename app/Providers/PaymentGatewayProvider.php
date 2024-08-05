@@ -14,7 +14,7 @@ class PaymentGatewayProvider extends ServiceProvider
             $service = config('gateway.services.current');
             $gateway = config('gateway.services.'.$service);
             $gatewayClass = Arr::get($gateway, 'class');
-            return (new $gatewayClass())->connection(Arr::get($gateway, 'settings'));
+            return (app($gatewayClass))->connection(Arr::get($gateway, 'settings'));
         });
     }
 }

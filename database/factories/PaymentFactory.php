@@ -2,22 +2,23 @@
 
 namespace Database\Factories;
 
+use App\Infrastructure\Persistence\Models\Microsite;
+use App\Infrastructure\Persistence\Models\Payment;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
-/**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Infrastructure\Persistence\Models\Payment>
- */
 class PaymentFactory extends Factory
 {
-    /**
-     * Define the model's default state.
-     *
-     * @return array<string, mixed>
-     */
-    public function definition(): array
+    protected $model = Payment::class;
+
+    public function definition()
     {
         return [
-            //
+            'reference' => Str::random(40),
+            'amount' => $this->faker->numberBetween(1000, 100000),
+            'description' => $this->faker->sentence,
+            'status' => 'PENDING',
+            'microsite_id' => Microsite::factory(),
         ];
     }
 }

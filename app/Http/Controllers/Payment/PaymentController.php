@@ -7,7 +7,9 @@ use App\Constants\DocumentTypes;
 use App\Contracts\PaymentGatewayContract;
 use App\Infrastructure\Persistence\Models\Microsite;
 use App\Infrastructure\Persistence\Models\Payment;
+use App\Jobs\ResolvePaymentJob;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 use Inertia\Inertia;
 use Inertia\Response;
@@ -20,6 +22,7 @@ class PaymentController
             'MicrositesForms/' . ucfirst($microsite->type),
             [
                 'microsite' => $microsite,
+                'user' => Auth::user() ?? null,
                 'documentTypes' => DocumentTypes::getTypes(),
                 'currencyTypes' => CurrencyTypes::getTypes()
             ]
@@ -54,6 +57,22 @@ class PaymentController
         $data['microsite_id'] = $microsite->id;
 
         $payment = $gateway->createSession(Payment::create($data), $request);
-        return $payment->status=='pending' ? Inertia::location($payment->process_url) : dd('hola');
+
+        if ($payment->status === 'pending') {
+            return Inertia::location($payment->process_url);
+        }
+
+        return response()->json(['error' => 'Payment creation failed'], 500);
+    }
+
+    public function detail(Payment $payment, PaymentGatewayContract $gateway): Response
+    {
+        $microsite = Microsite::query()->where('id', $payment->microsite_id)->first();
+        $gateway->query($payment);
+        return Inertia::render('Payments/Detail', [
+            'payment' => $payment,
+            'microsite' => $microsite,
+        ]);
+
     }
 }
