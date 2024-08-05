@@ -39,34 +39,34 @@ watchEffect(() => {
                             <!-- Navigation Links -->
                             <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                 <NavLink :href="route('dashboard')" :active="route().current('dashboard')">
-                                    Inicio
+                                    {{ $t('modules.home') }}
                                 </NavLink>
                             </div>
 
                             <div v-if="can('microsites.index')" class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                 <NavLink :href="route('microsites.index')" :active="route().current('microsites.index')">
-                                    Micrositios
+                                    {{ $t('modules.microsites') }}
                                 </NavLink>
                             </div>
 
                             <div v-if="can('categories.index')" class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                 <NavLink :href="route('categories.index')" :active="route().current('categories.index')">
-                                    Categorias
+                                    {{ $t('modules.categories') }}
                                 </NavLink>
                             </div>
                             <div v-if="can('users.index')" class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                 <NavLink :href="route('users.index')" :active="route().current('users.index')">
-                                    Usuarios
+                                    {{ $t('modules.users') }}
                                 </NavLink>
                             </div>
                             <div v-if="can('roles.index')" class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                 <NavLink :href="route('roles.index')" :active="route().current('roles.index')">
-                                    Roles
+                                    {{ $t('modules.roles') }}
                                 </NavLink>
                             </div>
                             <div v-if="can('payments.index')" class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                                 <NavLink :href="route('payments.index')" :active="route().current('payments.index')">
-                                    Payment
+                                    {{ $t('modules.payments') }}
                                 </NavLink>
                             </div>
                         </div>

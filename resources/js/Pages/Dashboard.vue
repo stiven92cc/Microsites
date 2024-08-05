@@ -26,7 +26,7 @@ const user = page.props;
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                     <div class="p-12 text-center text-xl">
                         <span class="text-gray-900">
-                            Welcome to microsites,
+                            {{ $t('common.welcome_to_microsites') }},
                         </span>
                         <span class="text-orange-500">
                             {{ user.auth.user.name }}

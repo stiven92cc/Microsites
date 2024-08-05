@@ -7,18 +7,18 @@
                 :route-name="'roles.index'"
                 :icon-position="'left'"
             >
-                Back
+                {{ $t('common.back') }}
             </Button>
         </div>
         <div class="mt-6 mx-[450px] p-8 bg-white rounded-md shadow-ls">
             <div class="my-1.5">
-                <SPageTitle>Create new role</SPageTitle>
+                <SPageTitle>{{ $t('roles.create_new_rol') }}</SPageTitle>
             </div>
 
             <form @submit.prevent="submit">
                 <div class="w-full">
                     <SInputBlock
-                        label="name"
+                        :label="$t('roles.forms.name')"
                         :errorText="form.errors.name"
                         name="name"
                         id="name"
@@ -44,7 +44,7 @@
                                                         v-model="selectedRoles[group]"
                                                         @click="toggleGroup(group, selectedRoles, groupedPermissions)"
                                                     />
-                                                    <InputLabel :for="'group_' + group" :value="group" class="ml-2" />
+                                                    <InputLabel :for="'group_' + group" :value="$t('roles.forms.group_roles.' + group)" class="ml-2" />
                                                 </div>
                                                 <div class="ml-6">
                                                     <div v-for="permission in permissions" :key="permission" class="flex items-center mt-2">
@@ -57,7 +57,7 @@
                                                             @change="e => handlePermissionChange(group, permission, e)"
                                                             :checked="isPermissionChecked(group, permission)"
                                                         />
-                                                        <InputLabel :for="`${group}.${permission}`" :value="permission" class="ml-2" />
+                                                        <InputLabel :for="`${group}.${permission}`" :value="$t('roles.forms.permissions.' + permission)" class="ml-2"/>
                                                     </div>
                                                 </div>
                                             </div>
@@ -67,7 +67,7 @@
                                             <SButton
                                                 type="submit"
                                             >
-                                                Create
+                                                {{ $t('common.create') }}
                                             </SButton>
                                         </div>
                                     </form>

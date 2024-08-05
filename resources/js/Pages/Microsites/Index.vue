@@ -2,7 +2,7 @@
     <AuthenticatedLayout>
         <template #header>
             <div>
-                <SPageTitle>Microsites</SPageTitle>
+                <SPageTitle>{{ $t('modules.microsites') }}</SPageTitle>
             </div>
         </template>
 
@@ -12,7 +12,7 @@
                 :classes="'bg-orange-500 hover:bg-orange-400'"
                 :route-name="'microsites.create'"
             >
-                Create
+                {{ $t('common.create') }}
             </Button>
         </div>
 
@@ -25,11 +25,14 @@
 </template>
 
 <script setup>
+import { useI18n } from 'vue-i18n';
 import {SPageTitle} from "@placetopay/spartan-vue";
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import DataTable from "@/Components/Molecules/DataTable.vue";
 import Button from "@/Components/Atoms/Button.vue";
 import {PlusCircleIcon} from "@heroicons/vue/24/outline/index.js";
+
+const { t } = useI18n();
 
 const props = defineProps({
     microsites: {

@@ -7,18 +7,18 @@
                 :route-name="'microsites.index'"
                 :icon-position="'left'"
             >
-                Back
+                {{ $t('common.back') }}
             </Button>
         </div>
         <div class="mt-6 mx-[450px] p-8 bg-white rounded-md shadow-ls">
             <div class="my-1.5">
-                <SPageTitle>Create new microsite</SPageTitle>
+                <SPageTitle>{{ $t('microsites.create_new_microsite') }}</SPageTitle>
             </div>
             <form @submit.prevent="submit">
                 <div class="flex">
                     <div class="mr-4 w-full">
                         <SInputBlock
-                            label="name"
+                            :label="$t('microsites.forms.name')"
                             :errorText="form.errors.name"
                             name="name"
                             id="name"
@@ -29,7 +29,7 @@
                     </div>
                     <div class="ml-4 w-full">
                         <SInputBlock
-                            label="slug"
+                            :label="$t('microsites.forms.slug')"
                             :errorText="form.errors.slug"
                             name="slug"
                             id="slug"
@@ -44,7 +44,7 @@
                             id="type"
                             :errorText="form.errors.type"
                             placeholder="Select one option"
-                            label="type"
+                            :label="$t('microsites.forms.type')"
                             v-model="form.type"
                         >
                             <option v-for="(value, key) in types" :key="key" :value="value">
@@ -54,7 +54,7 @@
                     </div>
                     <div class="ml-4 w-full">
                         <SSelectBlock
-                            id="category_id"
+                            :label="$t('microsites.forms.category_id')"
                             :errorText="form.errors.category_id"
                             placeholder="Select one option"
                             label="category_id"
@@ -72,7 +72,7 @@
                             id="currency"
                             :errorText="form.errors.currency"
                             placeholder="Select one option"
-                            label="currency"
+                            :label="$t('microsites.forms.currency')"
                             v-model="form.currency"
                         >
                             <option v-for="(value, key) in currencies" :key="key" :value="value">
@@ -82,7 +82,7 @@
                     </div>
                     <div class="ml-4 w-full">
                         <SInputBlock
-                            label="payment_expiration"
+                            :label="$t('microsites.forms.payment_expiration')"
                             :errorText="form.errors.payment_expiration"
                             name="payment_expiration"
                             id="payment_expiration"
@@ -95,8 +95,12 @@
                 <main class="items-center justify-center font-sans mt-8">
                     <label v-if="!logoUrl" for="logo" class="mx-auto cursor-pointer flex w-full max-w-lg flex-col items-center rounded-xl border-2 border-dashed border-orange-500 bg-white p-6 text-center">
                         <ArrowUpCircleIcon class="w-12 h-12 text-orange-500"/>
-                        <h2 class="mt-4 text-xl font-medium text-gray-700 tracking-wide">Select logo</h2>
-                        <p class="mt-2 text-gray-500 tracking-wide">Only upload PNG and JPG .</p>
+                        <h2 class="mt-4 text-xl font-medium text-gray-700 tracking-wide">
+                            {{ $t('microsites.forms.input_logo.select_logo') }}
+                        </h2>
+                        <p class="mt-2 text-gray-500 tracking-wide">
+                            {{ $t('microsites.forms.input_logo.only_upload_png_and_jpg') }} .
+                        </p>
                         <input @change="onSelectLogo" id="logo" type="file" class="hidden" />
                     </label>
                     <div v-else class="mx-auto flex w-full max-w-lg flex-col items-center rounded-xl border-2 border-dashed border-orange-500 bg-white p-6 text-center">
@@ -112,7 +116,7 @@
                     <SButton
                         class="bg-orange-500 hover:bg-orange-400 mt-6"
                         type="submit"
-                    >Create
+                    >{{ $t('common.create') }}
                     </SButton>
 
                 </div>

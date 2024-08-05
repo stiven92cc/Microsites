@@ -1,28 +1,31 @@
 <template>
     <div ref="dropdown" class="relative inline-block text-left">
         <div>
-            <button
-                @click="toggleDropdown"
-                type="button"
-                class="text-sm flex items-center"
-                id="menu-button"
-                aria-expanded="true"
-                aria-haspopup="true"
-            >
-                {{ selectedLanguage }}
-                <svg
-                    class="-mr-1 h-5 w-5 text-gray-400"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    aria-hidden="true"
+            <div class="flex items-center">
+                <LanguageIcon class="w-6"/>
+                <button
+                    @click="toggleDropdown"
+                    type="button"
+                    class="text-sm flex items-center"
+                    id="menu-button"
+                    aria-expanded="true"
+                    aria-haspopup="true"
                 >
-                    <path
-                        fill-rule="evenodd"
-                        d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
-                        clip-rule="evenodd"
-                    />
-                </svg>
-            </button>
+                    {{ selectedLanguage }}
+                    <svg
+                        class="-mr-1 h-5 w-5 text-gray-400"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                        aria-hidden="true"
+                    >
+                        <path
+                            fill-rule="evenodd"
+                            d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z"
+                            clip-rule="evenodd"
+                        />
+                    </svg>
+                </button>
+            </div>
         </div>
 
         <div
@@ -58,7 +61,11 @@
 </template>
 
 <script>
+import {LanguageIcon} from "@heroicons/vue/24/outline/index.js";
 export default {
+    components: {
+        LanguageIcon
+    },
     data() {
         return {
             isOpen: false,

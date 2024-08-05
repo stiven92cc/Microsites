@@ -7,19 +7,19 @@
                 :route-name="'roles.index'"
                 :icon-position="'left'"
             >
-                Back
+                {{ $t('common.back') }}
             </Button>
         </div>
 
         <div class="mt-6 mx-[450px] p-8 bg-white rounded-md shadow-ls">
             <div class="my-1.5">
-                <SPageTitle>Edit role {{ form.name }}</SPageTitle>
+                <SPageTitle>{{ $t('roles.edit_role') }} {{ form.name }}</SPageTitle>
             </div>
 
             <form @submit.prevent="submit">
                 <div class="w-full">
                     <SInputBlock
-                        label="name"
+                        :label="$t('roles.forms.name')"
                         :errorText="form.errors.name"
                         name="name"
                         id="name"
@@ -42,7 +42,7 @@
                                                 :checked="permissions.every(permission => isPermissionSelected(permission))"
                                                 @click="toggleGroup(permissions)"
                                             />
-                                            <InputLabel :for="'group_' + group" :value="group" class="ml-2" />
+                                            <InputLabel :for="'group_' + group" :value="$t('roles.forms.group_roles.' + group)" class="ml-2" />
                                         </div>
                                         <div class="mt-4 ml-6">
                                             <div v-for="permission in permissions" :key="permission" class="flex items-center mt-2">
@@ -55,7 +55,8 @@
                                                     @change="togglePermission(permission)"
                                                     :checked="isPermissionSelected(permission)"
                                                 />
-                                                <InputLabel :for="permission" :value="permission" class="ml-2" />
+                                                <InputLabel :for="permission" :value="$t('roles.forms.permissions.' + permission.replace(/^[^.]+\./, ''))" class="ml-2" />
+
                                             </div>
                                         </div>
                                     </div>
@@ -65,7 +66,7 @@
                                     <SButton
                                         type="submit"
                                     >
-                                        Update
+                                        {{ $t('common.edit') }}
                                     </SButton>
                                 </div>
                             </form>
@@ -78,14 +79,11 @@
 </template>
 
 <script setup>
-import { Head, Link, useForm } from '@inertiajs/vue3';
+import {useForm} from '@inertiajs/vue3';
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-import { route } from "ziggy-js";
+import {route} from "ziggy-js";
 import InputLabel from "@/Components/InputLabel.vue";
-import TextInput from "@/Components/TextInput.vue";
-import InputError from "@/Components/InputError.vue";
-import PrimaryButton from "@/Components/PrimaryButton.vue";
-import { defineProps, ref, watch, computed } from "vue";
+import {computed, defineProps, watch} from "vue";
 import {ArrowLeftIcon} from "@heroicons/vue/24/outline/index.js";
 import Button from "@/Components/Atoms/Button.vue";
 import {SButton, SInputBlock, SPageTitle} from "@placetopay/spartan-vue";
@@ -106,6 +104,21 @@ const form = useForm({
     permissions: props.role.permissions.map(permission => permission.name) || [],
 });
 
+const separatePermissions = (permissions) => {
+    return permissions.map(permission => {
+        // Clonamos el objeto para no mutar el original
+        let newPermission = { ...permission };
+
+        // Modificamos la propiedad name si existe y es una cadena
+        if (typeof newPermission.name === 'string') {
+            newPermission.name = newPermission.name.replace(/^[^.]+\./, '');
+        }
+
+        return newPermission;
+    });
+}
+// console.log(separatePermissions(props.allPermissions));
+console.log(props.allPermissions);
 
 const isPermissionSelected = (permission) => {
     return form.permissions.includes(permission);

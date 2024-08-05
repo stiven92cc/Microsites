@@ -12,7 +12,7 @@
                 :classes="'bg-orange-500 hover:bg-orange-400'"
                 :route-name="'categories.create'"
             >
-                Create
+                {{ $t('common.create') }}
             </Button>
         </div>
 

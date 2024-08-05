@@ -1,14 +1,11 @@
 <template>
-<AuthenticatedLayout>
-    <div class="flex justify-end mt-6 mx-12">
-        <Button
-            :iconPosition="'left'"
-            :icon="ArrowLeftIcon"
-            :route-name="'payments.index'"
-            :icon-position="'left'"
-        >
-            {{ $t('common.back') }}
-        </Button>
+    <div class="mt-4 ml-36">
+        <div class="flex items-center justify-between">
+            <SPageTitle>{{ $t('common.payment_summary') }}</SPageTitle>
+            <div class="mr-36">
+                <ChangeLocale/>
+            </div>
+        </div>
     </div>
     <div class="min-w-min bg-white mx-36 my-12 rounded-lg">
         <div class="p-6 grid grid-cols-3">
@@ -58,24 +55,34 @@
             </div>
             <div class="mt-6">
                 <h1 class="text-gray-400">{{ $t('payments.show.microsite_type') }}</h1>
-                <span>{{ props.microsite.type }}</span>
+                <span>{{ $t('microsites.types.' + props.microsite.type ) }}</span>
             </div>
         </div>
         <div v-if="props.payment.status === 'REJECTED'" class="flex justify-end p-8">
             <SButton>
-                payment retry
+                {{ $t('common.payment_retry') }}
             </SButton>
         </div>
     </div>
-</AuthenticatedLayout>
+    <div class="flex justify-center">
+    <Button
+        :iconPosition="'left'"
+        :icon="BuildingStorefrontIcon"
+        :route-name="'welcome'"
+        :icon-position="'left'"
+    >
+        {{ $t('common.return') }}
+    </Button>
+    </div>
 </template>
 
 <script setup>
-import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
-import {ArrowLeftIcon} from "@heroicons/vue/24/outline/index.js";
-import Button from "@/Components/Atoms/Button.vue";
+
 import {ParserDate} from "@/parserDate.js";
-import {SButton} from "@placetopay/spartan-vue";
+import {SButton, SPageTitle} from "@placetopay/spartan-vue";
+import {BuildingStorefrontIcon} from "@heroicons/vue/24/outline/index.js";
+import Button from "@/Components/Atoms/Button.vue";
+import ChangeLocale from "@/Components/Molecules/ChangeLocale.vue";
 
 const parser = new ParserDate();
 

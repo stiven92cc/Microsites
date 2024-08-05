@@ -7,16 +7,16 @@
                 :route-name="'categories.index'"
                 :icon-position="'left'"
             >
-                Back
+                {{ $t('common.back') }}
             </Button>
         </div>
         <div class="mt-6 mx-[450px] p-8 bg-white rounded-md shadow-ls">
             <div class="my-1.5">
-                <SPageTitle>Create new category</SPageTitle>
+                <SPageTitle>{{ $t('categories.create_new_category') }}</SPageTitle>
                 <form @submit.prevent="submit">
                     <div class="my-4 w-full">
                         <SInputBlock
-                            label="name"
+                            :label="$t('categories.forms.name')"
                             :errorText="form.errors.name"
                             name="name"
                             id="name"
@@ -27,7 +27,7 @@
                     </div>
                     <div class="my-4 w-full">
                         <SInputBlock
-                            label="alias"
+                            :label="$t('categories.forms.alias')"
                             :errorText="form.errors.alias"
                             name="alias"
                             id="alias"
@@ -36,7 +36,7 @@
                         </SInputBlock>
                     </div>
                     <div class="my-4 w-full">
-                        <label for="description text-gray-900 text-sm">description</label>
+                        <label for="description text-gray-900 text-sm">{{ $t('categories.forms.description') }}</label>
                         <STextArea
                             :errorText="form.errors.description"
                             name="description"
@@ -49,7 +49,7 @@
                         <SButton
                             type="submit"
                         >
-                            Save
+                            {{ $t('common.create') }}
                         </SButton>
                     </div>
                 </form>

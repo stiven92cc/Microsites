@@ -30,7 +30,7 @@ const props = defineProps({
 const cols = [
     "id",
     "reference",
-    "name",
+    "payer_name",
     "payer_document_type",
     "payer_document",
     "status",
