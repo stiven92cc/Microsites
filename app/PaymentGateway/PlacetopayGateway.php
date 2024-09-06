@@ -34,15 +34,14 @@ class PlacetopayGateway implements PaymentGatewayContract
     }
     public function createSession(Payment $payment, Request $request)
     {
-        $totalPrice = $payment->amount;
         try {
             $request = [
                 'payment' => [
-                    'reference' => '12321313',
+                    'reference' => $payment->reference,
                     'description' => $payment->description,
                     'amount' => [
                         'currency' => 'COP',
-                        'total' => $totalPrice,
+                        'total' => $payment->amount,
                     ],
                 ],
                 'expiration' => date('c', strtotime('+30 minutes')),
@@ -68,7 +67,6 @@ class PlacetopayGateway implements PaymentGatewayContract
             report($exception);
         }
     }
-
     public function query(Payment $payment): Payment
     {
         $response = $this->placetopay->query($payment->request_id);

@@ -4,7 +4,7 @@ namespace App\Domain\Forms;
 
 class CreateFormConfiguration
 {
-    public function create(string $micrositeType): mixed
+    public function create(string $micrositeType): array
     {
         $filePath = match ($micrositeType) {
             'donation' => base_path('app/Files/donation.json'),
@@ -20,6 +20,6 @@ class CreateFormConfiguration
             throw new \RuntimeException('Invalid JSON in file: ' . $filePath);
         }
 
-        return $decodedContents;
+        return $decodedContents ?? [];
     }
 }

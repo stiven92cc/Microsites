@@ -156,5 +156,20 @@
             "microsite": "Micrositio",
             "microsite_type": "Tipo de micrositio"
         }
+    },
+    "subscription_plans": {
+        "fields": {
+            "name": "Nombre",
+            "description": "Descripcion",
+            "amount": "Monto",
+            "subscription_period": "Periodos de suscripcion",
+            "expiration_time": "Tiempo de expiracion"
+        },
+        "periods": {
+            "daily": "Diario",
+            "weekly": "Semanal",
+            "monthly": "Mensual",
+            "yearly": "Anual"
+        }
     }
 }

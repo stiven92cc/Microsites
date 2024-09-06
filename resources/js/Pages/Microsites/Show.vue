@@ -65,7 +65,26 @@
             </div>
         </div>
 
-        <h1></h1>
+        <!-- Botón para crear un nuevo plan de suscripción -->
+        <div class="flex justify-end m-6">
+            <Button
+                :icon="PlusCircleIcon"
+                :classes="'bg-blue-500 hover:bg-blue-400'"
+                :route-name="'subscription-plans.create'"
+                :route-params="{ microsite_id: props.microsite.id }"
+            >
+                {{ $t('subscription_plans.create') }}
+            </Button>
+        </div>
+
+        <!-- Tabla que muestra los planes de suscripción asociados al micrositio -->
+        <div class="m-12">
+            <DataTable
+                :data="props.subscriptionPlans"
+                :cols="cols"
+                :actions="actions"
+            />
+        </div>
 
         <Form
             :configuration="JSON.parse(props.microsite.form.form_configuration)"
@@ -78,18 +97,35 @@
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import {ParserDate} from "@/parserDate.js";
-import DropdownLink from "@/Components/DropdownLink.vue";
-import {route} from "ziggy-js";
-import Dropdown from "@/Components/Dropdown.vue";
 import DropDownIndex from "@/Components/Molecules/DropDownIndex.vue";
 import Form from "@/Pages/Microsites/Form.vue";
 import {SPageTitle} from "@placetopay/spartan-vue";
 import Button from "@/Components/Atoms/Button.vue";
-import {ArrowLeftIcon} from "@heroicons/vue/24/outline/index.js";
+import {ArrowLeftIcon, PlusCircleIcon} from "@heroicons/vue/24/outline/index.js";
+import DataTable from "@/Components/Molecules/DataTable.vue";
+import { useI18n } from 'vue-i18n';
 
 const parserDate = new ParserDate();
 
 const props = defineProps({
     microsite: Object,
+    subscriptionPlans: Array
 });
+
+const { t } = useI18n();
+
+const cols = [
+    "name",
+    "amount",
+    "subscription_period",
+    "expiration_time",
+    "actions"
+];
+
+const actions = {
+    edit: "subscription-plans.edit",
+    show: "subscription-plans.show",
+    destroy: "subscription-plans.destroy"
+}
+
 </script>

@@ -87,6 +87,7 @@
                             name="payment_expiration"
                             id="payment_expiration"
                             v-model="form.payment_expiration"
+                            type="number"
                         >
                         </SInputBlock>
                     </div>

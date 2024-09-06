@@ -7,6 +7,7 @@ use App\Http\Controllers\Admin\Users\UsersController;
 use App\Http\Controllers\Guest\WelcomeController;
 use App\Http\Controllers\Payment\PaymentController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Subscription\SubscriptionPlanController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -27,10 +28,16 @@ Route::middleware('auth')->group(function () {
     Route::resource('categories', CategoryController::class);
     Route::resource('users', UsersController::class);
     Route::resource('roles', RolesController::class);
+
+    Route::middleware(['auth'])->group(function () {
+        Route::resource('subscription-plans', SubscriptionPlanController::class);
+    });
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::resource('payments', PaymentController::class);
+
+
 });
 
 require __DIR__.'/auth.php';
