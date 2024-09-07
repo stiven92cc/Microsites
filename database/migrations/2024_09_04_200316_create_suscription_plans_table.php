@@ -18,7 +18,6 @@ return new class extends Migration
             $table->integer('expiration_time');
             $table->unsignedBigInteger('microsite_id');
             $table->timestamps();
-
             $table->foreign('microsite_id')
                 ->references('id')
                 ->on('microsites')

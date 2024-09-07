@@ -3,10 +3,12 @@
 namespace App\Http\Controllers\Subscription;
 
 use App\Constants\SubscriptionPeriods;
+use App\Domain\Subscriptions\StoreSubscriptionsPlanAction;
 use App\Http\Controllers\Controller;
 use App\Infrastructure\Persistence\Models\SubscriptionPlan;
 use App\Http\Requests\Subscriptions\StoreSubscriptionPlanRequest;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 use Inertia\Response;
 
@@ -20,25 +22,19 @@ class SubscriptionPlanController extends Controller
         ]);
     }
 
-    public function create(): Response
+    public function create($id): Response
     {
         return Inertia::render('Subscriptions/Create', [
-            'subscriptionPeriods' => SubscriptionPeriods::getAllSubscriptionPeriods()
+            'subscriptionPeriods' => SubscriptionPeriods::getAllSubscriptionPeriods(),
+            'microsite_id' => $id
         ]);
     }
 
-    public function store(StoreSubscriptionPlanRequest $request, StoreSubscriptionPlanAction $action): RedirectResponse
+    public function store(StoreSubscriptionPlanRequest $request, StoreSubscriptionsPlanAction $action): RedirectResponse
     {
-        SubscriptionPlan::create([
-            'name' => $request->name,
-            'description' => $request->description,
-            'amount' => $request->amount,
-            'subscription_period' => $request->subscription_period,
-            'expiration_time' => $request->expiration_time,
-            'microsite_id' => $request->microsite_id,
-        ]);
+        $action->execute($request->validated());
 
-        return redirect()->route('subscription-plans.index')->with('success', 'Plan de suscripción creado exitosamente');
+        return redirect()->route('microsites.index');
     }
 
     public function show(SubscriptionPlan $subscriptionPlan): Response

@@ -60,7 +60,7 @@ class MicrositesController extends Controller
         $this->authorize('show', Microsite::class);
 
         return Inertia::render('Microsites/Show', [
-            'microsite' => $microsite->load(['category', 'form']),
+            'microsite' => $microsite->load(['category', 'form', 'subscriptionPlans']),
         ]);
     }
 

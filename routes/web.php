@@ -29,9 +29,11 @@ Route::middleware('auth')->group(function () {
     Route::resource('users', UsersController::class);
     Route::resource('roles', RolesController::class);
 
-    Route::middleware(['auth'])->group(function () {
-        Route::resource('subscription-plans', SubscriptionPlanController::class);
-    });
+
+    Route::resource('subscription-plans', SubscriptionPlanController::class);
+    Route::get('subscription-plans/create/{id}', [SubscriptionPlanController::class, 'create'])
+    ->name('subscription-plans.create');
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

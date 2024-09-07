@@ -17,13 +17,16 @@ import { route } from "ziggy-js";
 
 const props = defineProps({
     routeName: {
-        type: String
+        type: String,
+        required: true
     },
     text: {
-        type: String
+        type: String,
+        default: ''
     },
     icon: {
-        type: Function
+        type: Function,
+        default: null
     },
     iconPosition: {
         type: String,
@@ -31,12 +34,18 @@ const props = defineProps({
         validator: value => ['left', 'right'].includes(value)
     },
     classes: {
-        type: String
+        type: String,
+        default: ''
+    },
+    param: {
+        type: [String, Number, null],
+        default: null
     }
 });
 
 const navigate = () => {
-    router.get(route(props.routeName));
+    const fullRoute = props.param ? route(props.routeName, props.param) : route(props.routeName);
+    router.get(fullRoute);
 };
 </script>
 

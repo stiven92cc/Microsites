@@ -113,7 +113,7 @@ const props = defineProps({
     microsite_id: Number,
     subscriptionPeriods: Object,
 });
-
+console.log(props.microsite_id);
 const { t } = useI18n();
 
 const form = useForm({

@@ -53,6 +53,10 @@ const props = defineProps({
     actions: {
         type: Object,
         required: true
+    },
+    id_microsite:{
+        type: Object,
+        required: true
     }
 });
 
