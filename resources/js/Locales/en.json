@@ -103,7 +103,9 @@
             "email": "Email",
             "password": "Password",
             "confirm_password": "Confirm password",
-            "role": "Role"
+            "role": "Role",
+            "document_type": "Document type",
+            "document": "Document"
         }
     },
     "roles": {

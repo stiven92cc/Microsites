@@ -69,10 +69,10 @@
         <div v-if="props.microsite.type === 'subscription'">
             <div class="flex justify-end mt-6 mx-12">
                 <Button
-                    :icon="PlusCircleIcon"
-                    :classes="'bg-orange-500 hover:bg-blue-400'"
+                    :classes="'bg-orange-500'"
                     :route-name="'subscription-plans.create'"
                     :param="props.microsite.id"
+                    type="submit"
                 >
                     {{ $t('subscription_plans.create') }}
                 </Button>
@@ -102,7 +102,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import {ParserDate} from "@/parserDate.js";
 import DropDownIndex from "@/Components/Molecules/DropDownIndex.vue";
 import Form from "@/Pages/Microsites/Form.vue";
-import {SPageTitle} from "@placetopay/spartan-vue";
+import {SButton, SPageTitle} from "@placetopay/spartan-vue";
 import Button from "@/Components/Atoms/Button.vue";
 import {ArrowLeftIcon, PlusCircleIcon} from "@heroicons/vue/24/outline/index.js";
 import DataTable from "@/Components/Molecules/DataTable.vue";

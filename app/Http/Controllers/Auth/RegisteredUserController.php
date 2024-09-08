@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Constants\DocumentTypes;
 use App\Constants\Roles;
 use App\Http\Controllers\Controller;
 use App\Infrastructure\Persistence\Models\User;
@@ -21,7 +22,9 @@ class RegisteredUserController extends Controller
      */
     public function create(): Response
     {
-        return Inertia::render('Auth/Register');
+        return inertia('Auth/Register', [
+            'documentTypes' => DocumentTypes::getTypes(),
+        ]);
     }
 
     /**
@@ -33,6 +36,8 @@ class RegisteredUserController extends Controller
     {
         $request->validate([
             'name' => 'required|string|max:255',
+            'document_type' => 'required|string',
+            'document' => 'required',
             'email' => 'required|string|lowercase|email|max:255|unique:'.User::class,
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);

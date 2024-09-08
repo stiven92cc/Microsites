@@ -5,6 +5,7 @@ namespace App\PaymentGateway;
 
 use App\Constants\PaymentStatus;
 use App\Contracts\PaymentGatewayContract;
+use App\Jobs\ResolveInvoiceJob;
 use Dnetix\Redirection\Entities\Transaction;
 use Dnetix\Redirection\Message\RedirectResponse;
 use Dnetix\Redirection\PlacetoPay;
@@ -76,6 +77,7 @@ class PlacetopayGateway implements PaymentGatewayContract
                     $payment->status = PaymentStatus::APPROVED->value;
                     $payment->paid_at = new Carbon($response->status()->date());
                     $payment->receipt = $response->lastApprovedTransaction()->receipt();
+                    ResolveInvoiceJob::dispatch($payment);
                 } elseif ($response->status()->isRejected()) {
                     $payment->status = PaymentStatus::REJECTED->value;
                 }

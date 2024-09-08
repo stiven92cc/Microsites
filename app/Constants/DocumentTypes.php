@@ -17,4 +17,5 @@ class DocumentTypes
         return (new \ReflectionClass(self::class))->getConstants();
     }
 
+
 }

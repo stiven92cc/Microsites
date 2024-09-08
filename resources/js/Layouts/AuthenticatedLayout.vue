@@ -69,6 +69,11 @@ watchEffect(() => {
                                     {{ $t('modules.payments') }}
                                 </NavLink>
                             </div>
+                            <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
+                                <NavLink :href="route('invoices.index')" :active="route().current('invoices.index')">
+                                    {{ $t('modules.invoices') }}
+                                </NavLink>
+                            </div>
                         </div>
 
                         <div class="hidden sm:flex sm:items-center sm:ms-6">

@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Admin\Category\CategoryController;
+use App\Http\Controllers\Admin\Invoices\InvoiceImportController;
+use App\Http\Controllers\Admin\Invoices\InvoicesController;
 use App\Http\Controllers\Admin\Microsites\MicrositesController;
 use App\Http\Controllers\Admin\Roles\RolesController;
 use App\Http\Controllers\Admin\Users\UsersController;
@@ -15,6 +17,7 @@ Route::get('/', [WelcomeController::class, 'index'])->name('welcome');
 
 Route::get('/payment/{microsite}', [PaymentController::class, 'micrositeForm'])->name('payment.form');
 Route::post('/payment/{microsite}', [PaymentController::class, 'pay'])->name('payment.pay');
+Route::post('/payment/invoice/{invoice}', [PaymentController::class, 'payInvoice'])->name('payment.pay.invoice');
 Route::get('/payment/detail/{payment}', [PaymentController::class, 'detail'])->name('payment.detail');
 
 Route::get('/dashboard', function () {
@@ -38,7 +41,9 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
     Route::resource('payments', PaymentController::class);
-
+    Route::post('/invoices/import', [InvoiceImportController::class, 'import']);
+    Route::get('/invoices/import', [InvoiceImportController::class, 'importForm'])->name('import.form');
+    Route::get('/invoices', [InvoicesController::class, 'index'])->name('invoices.index');
 
 });
 

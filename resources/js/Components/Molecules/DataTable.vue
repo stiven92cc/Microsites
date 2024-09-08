@@ -84,13 +84,28 @@ const getIcon = (action) => {
             return TrashIcon;
         case 'payment':
             return CreditCardIcon;
+        case 'pay':
+            return CreditCardIcon;
         default:
             return null;
     }
 };
 
 const getMethod = (action) => {
-    return action === 'destroy' ? 'delete' : 'get';
+    switch (action) {
+        case 'edit':
+            return 'get';
+        case 'show':
+            return 'get';
+        case 'destroy':
+            return 'delete';
+        case 'payment':
+            return 'get';
+        case 'pay':
+            return 'post';
+        default:
+            return 'get';
+    }
 };
 
 const translateValue = (value) => {

@@ -25,4 +25,9 @@ class Payment extends Model
     {
         return PaymentFactory::new();
     }
+
+    public function invoice(): BelongsTo
+    {
+        return $this->belongsTo(Invoice::class);
+    }
 }
