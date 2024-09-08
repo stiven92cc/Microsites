@@ -89,11 +89,11 @@
 
         </div>
 
-        <Form
-            :configuration="JSON.parse(props.microsite.form.form_configuration)"
-            :microsite="props.microsite"
+        <!--<Form
+           // :configuration="JSON.parse(props.microsite.form.form_configuration)"
+            //:microsite="props.microsite"
         >
-        </Form>
+       // </Form>-->
     </AuthenticatedLayout>
 </template>
 

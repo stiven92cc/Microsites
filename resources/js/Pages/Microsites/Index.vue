@@ -56,4 +56,6 @@ const actions = {
     destroy:"microsites.destroy",
     payment: "payment.form"
 }
+
+
 </script>
