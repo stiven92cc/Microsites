@@ -33,7 +33,15 @@
         "payer_name": "Name",
         "return": "Return to merchant",
         "payment_retry":"Payment retry",
-        "payment_summary": "Payment summary"
+        "payment_summary": "Payment summary",
+        "amount": "Amount",
+        "subscription_period": "Subscription period",
+        "expiration_time": "Expiration time",
+        "daily": "Daily",
+        "document_type": "Document type",
+        "document": "Document",
+        "expired_at": "Expired",
+        "import": "Import"
     },
     "modules" : {
         "home": "Home",
@@ -41,7 +49,8 @@
         "categories": "Categories",
         "users": "Users",
         "Roles": "Roles",
-        "payments": "Payments"
+        "payments": "Payments",
+        "invoices": "Invoices"
     },
     "microsites": {
         "create_new_microsite": "Create new microsite",
@@ -159,5 +168,27 @@
             "microsite": "Microsite",
             "microsite_type": "Microsite Type"
         }
-    }
+    },
+    "Invoices": "Invoices",
+    "subscription_plans": {
+        "create": "Create",
+        "daily": "Daily",
+        "fields": {
+            "name": "Name",
+            "description": "Description",
+            "amount": "Amount",
+            "subscription_period": "Subscription period",
+            "expiration_time": "Expiration time",
+            "create": "Create",
+            "daily": "Daily"
+        },
+        "periods": {
+            "daily": "Daily",
+            "weekly": "Weekly",
+            "monthly": "Monthly",
+            "yearly": "Yearly"
+        }
+    },
+    "Create_New_Subscription": "Create New Subscription"
+
 }

@@ -2,7 +2,7 @@
     <AuthenticatedLayout>
         <template #header>
             <div>
-                <SPageTitle>Invoices</SPageTitle>
+                <SPageTitle>{{$t('Invoices')}}</SPageTitle>
             </div>
         </template>
 
@@ -12,7 +12,7 @@
                 :classes="'bg-orange-500 hover:bg-orange-400'"
                 :route-name="'import.form'"
             >
-                Importar
+                {{ $t('common.import') }}
             </Button>
         </div>
 
@@ -53,7 +53,7 @@ const baseCols = [
     "amount",
     "document_type",
     "document",
-    "expired_at"
+    "expired_at",
 ];
 
 const cols = props.canPay ? [...baseCols, "actions"] : baseCols;

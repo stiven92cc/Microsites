@@ -37,7 +37,11 @@
         "amount": "valor",
         "subscription_period": "Periodo de suscripcion",
         "expiration_time": "Tiempo de expiracion",
-        "daily": "Diario"
+        "daily": "Diario",
+        "document_type": "Tipo de documento",
+        "document": "Documento",
+        "expired_at": "Expira",
+        "import": "Importar"
     },
     "modules" : {
         "home": "Inicio",
@@ -46,7 +50,7 @@
         "users": "Usuarios",
         "roles": "Roles",
         "payments": "Pagos",
-        "daily":"Diario"
+        "invoices": "Facturas"
     },
     "microsites": {
         "create_new_microsite": "Crear un nuevo micrositio",
@@ -190,5 +194,8 @@
             "monthly": "Mensual",
             "yearly": "Anual"
         }
-    }
+    },
+    "Invoices": "Facturas",
+    "Create_New_Subscription": "Crear Nueva Suscripcion"
+
 }
