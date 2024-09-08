@@ -26,5 +26,6 @@ class StoreSubscriptionsPlanAction
             'expiration_time' => $data['expiration_time'],
             'microsite_id' => $data['microsite_id'],
         ]);
+
     }
 }

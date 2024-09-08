@@ -67,17 +67,17 @@
 
         <!-- Botón para crear un nuevo plan de suscripción -->
         <div v-if="props.microsite.type === 'subscription'">
-            <div class="flex justify-end m-6">
+            <div class="flex justify-end mt-6 mx-12">
                 <Button
                     :icon="PlusCircleIcon"
-                    :classes="'bg-blue-500 hover:bg-blue-400'"
+                    :classes="'bg-orange-500 hover:bg-blue-400'"
                     :route-name="'subscription-plans.create'"
                     :param="props.microsite.id"
                 >
                     {{ $t('subscription_plans.create') }}
                 </Button>
             </div>
-            <!-- Tabla que muestra los planes de suscripción asociados al micrositio -->
+
             <div class="m-12">
                 <DataTable
                     :data="props.microsite.subscription_plans"
@@ -127,7 +127,7 @@ const cols = [
 
 const actions = {
     edit: "subscription-plans.edit",
-    show: "subscription-plans.show",
+    show: "subscription-plans.index",
     destroy: "subscription-plans.destroy"
 }
 

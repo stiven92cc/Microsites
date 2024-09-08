@@ -13,7 +13,7 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->json('description');
-            $table->decimal('amount', 10, 2);
+            $table->decimal('amount', 10);
             $table->enum('subscription_period', SubscriptionPeriods::getAllSubscriptionPeriods());
             $table->integer('expiration_time');
             $table->unsignedBigInteger('microsite_id');

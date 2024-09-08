@@ -1,21 +1,33 @@
 <template>
     <AuthenticatedLayout>
-        <div class="mt-6 mx-[450px] p-8 bg-white rounded-md shadow-ls">
+        <div class="flex justify-end mt-6 mx-12">
+            <Button
+                :iconPosition="'left'"
+                :icon="ArrowLeftIcon"
+                :route-name="'subscription-plans.index'"
+            >
+                {{ $t('common.back') }}
+            </Button>
+        </div>
+        <div class="mt-6 mx-auto max-w-3xl p-8 bg-white rounded-md shadow-ls">
             <div class="my-1.5">
-                <SPageTitle>{{ $t('Create_New_Subscription') }}</SPageTitle>
+                <SPageTitle>{{ $t('Edit_Subscription') }}editar</SPageTitle>
             </div>
             <form @submit.prevent="submit">
+                <!-- Name Field -->
                 <div class="mr-4 w-full mt-6">
                     <SInputBlock
                         :label="$t('subscription_plans.fields.name')"
                         :errorText="form.errors.name"
                         name="name"
                         id="name"
-                        placeholder="name"
+                        placeholder="Name"
                         v-model="form.name"
                     >
                     </SInputBlock>
                 </div>
+
+                <!-- Descriptions Field -->
                 <div class="md:col-span-2 mt-6">
                     <label class="block text-sm font-medium text-gray-700" for="description">
                         {{ $t('subscription_plans.fields.description') }}
@@ -40,6 +52,8 @@
                     </button>
                     <InputError class="mt-2" :message="form.errors.descriptions" />
                 </div>
+
+                <!-- Amount Field -->
                 <div class="mb-4 mt-6">
                     <label for="amount" class="block text-sm font-medium text-gray-700">
                         {{ $t('subscription_plans.fields.amount') }}
@@ -52,6 +66,8 @@
                         class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                     />
                 </div>
+
+                <!-- Subscription Period Field -->
                 <div class="mr-4 w-full mt-6">
                     <SSelectBlock
                         id="subscription_period"
@@ -60,11 +76,13 @@
                         :label="$t('subscription_plans.fields.subscription_period')"
                         v-model="form.subscription_period"
                     >
-                        <option v-for="(value) in props.subscriptionPeriods" :key="value" :value="value">
+                        <option v-for="(value) in subscriptionPeriods" :key="value" :value="value">
                             {{ $t(`subscription_plans.periods.${value}`) }}
                         </option>
                     </SSelectBlock>
                 </div>
+
+                <!-- Expiration Time Field -->
                 <div class="mb-4 mt-6">
                     <label for="expiration_time" class="block text-sm font-medium text-gray-700">
                         {{ $t('subscription_plans.fields.expiration_time') }}
@@ -76,12 +94,11 @@
                         class="mt-1 block w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
                     />
                 </div>
+
+                <!-- Submit Button -->
                 <div class="flex justify-end">
-                    <SButton
-                        class="bg-orange-500 hover:bg-orange-400 mt-6 flex items-center"
-                        type="submit"
-                    >
-                        {{ $t('common.create') }}
+                    <SButton class="bg-orange-500 hover:bg-orange-400 mt-6" type="submit">
+                        {{ $t('common.update') }}
                     </SButton>
                 </div>
             </form>
@@ -100,34 +117,43 @@ import { useI18n } from 'vue-i18n';
 import { route } from "ziggy-js";
 
 const props = defineProps({
-    microsite_id: Number,
-    subscriptionPeriods: Object,
+    subscriptionPlan: Object,
+    subscriptionPeriods: Array,
+    microsite: Object,
 });
 
 const { t } = useI18n();
 
+// Define the form with default values or values from props
 const form = useForm({
-    microsite_id: props.microsite_id,
-    name: '',
-    descriptions: [''],
-    amount: '',
-    subscription_period: 'monthly',
-    expiration_time: 0,
+    microsite_id: props.microsite?.id || null,
+    id: props.subscriptionPlan.id || '',
+    name: props.subscriptionPlan.name || '',
+    descriptions: Array.isArray(props.subscriptionPlan.description) ? props.subscriptionPlan.description : [''],
+    amount: props.subscriptionPlan.amount || 0,
+    subscription_period: props.subscriptionPlan.subscription_period || '',
+    expiration_time: props.subscriptionPlan.expiration_time || 0,
 });
 
+// Function to add a new description field
 const addDescription = () => {
     form.descriptions.push('');
 };
 
+// Function to remove a description field
 const removeDescription = (index) => {
     form.descriptions.splice(index, 1);
 };
 
+// Submit function to update the subscription plan
 const submit = () => {
-    form.post(route('subscription-plans.store'), {
+    form.put(route('subscription-plans.update', form.id), {
         onSuccess: () => {
             form.reset();
         },
+        onError: (errors) => {
+            console.error(errors); // Log errors to console for debugging
+        }
     });
 };
 </script>

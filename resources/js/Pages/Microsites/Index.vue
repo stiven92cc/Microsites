@@ -20,7 +20,7 @@
             :data="props.microsites"
             :cols="cols"
             :actions="actions"
-        />
+         id_microsite=""/>
     </AuthenticatedLayout>
 </template>
 

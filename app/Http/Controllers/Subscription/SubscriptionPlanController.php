@@ -33,8 +33,7 @@ class SubscriptionPlanController extends Controller
     public function store(StoreSubscriptionPlanRequest $request, StoreSubscriptionsPlanAction $action): RedirectResponse
     {
         $action->execute($request->validated());
-
-        return redirect()->route('microsites.index');
+        return redirect()->route('microsites.show', $request->microsite_id);
     }
 
     public function show(SubscriptionPlan $subscriptionPlan): Response
@@ -46,22 +45,26 @@ class SubscriptionPlanController extends Controller
 
     public function edit(SubscriptionPlan $subscriptionPlan): Response
     {
-        return Inertia::render('Subscription/Edit', [
+        $microsite = $subscriptionPlan->microsite;
+        return Inertia::render('Subscriptions/Edit', [
             'subscriptionPlan' => $subscriptionPlan,
+            'subscriptionPeriods' => SubscriptionPeriods::getAllSubscriptionPeriods(),
+            'microsite' => $microsite,
         ]);
     }
 
     public function update(StoreSubscriptionPlanRequest $request, SubscriptionPlan $subscriptionPlan): RedirectResponse
     {
         $subscriptionPlan->update($request->validated());
-
-        return redirect()->route('subscription-plans.index')->with('success', 'Plan de suscripción actualizado exitosamente');
+        return redirect()->route('microsites.show', $request->microsite_id)->with('success', 'Plan de suscripción actualizado exitosamente');
     }
 
     public function destroy(SubscriptionPlan $subscriptionPlan): RedirectResponse
     {
+        $micrositeId = $subscriptionPlan->microsite_id;
         $subscriptionPlan->delete();
 
-        return redirect()->route('subscription-plans.index')->with('success', 'Plan de suscripción eliminado exitosamente');
+        return redirect()->route('microsites.show', $micrositeId)
+            ->with('success', 'Plan de suscripción eliminado exitosamente.');
     }
 }
