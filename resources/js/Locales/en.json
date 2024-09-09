@@ -41,7 +41,10 @@
         "document_type": "Document type",
         "document": "Document",
         "expired_at": "Expired",
-        "import": "Import"
+        "import": "Import",
+        "validUntil": "Valid",
+        "payer_email": "Email",
+        "plan_frencuency": "Plan"
     },
     "modules" : {
         "home": "Home",
@@ -50,7 +53,8 @@
         "users": "Users",
         "Roles": "Roles",
         "payments": "Payments",
-        "invoices": "Invoices"
+        "invoices": "Invoices",
+        "subscriptions": "Subscription"
     },
     "microsites": {
         "create_new_microsite": "Create new microsite",
@@ -189,6 +193,14 @@
             "yearly": "Yearly"
         }
     },
-    "Create_New_Subscription": "Create New Subscription"
+    "Create_New_Subscription": "Create New Subscription",
+    "subscription": {
+        "subscription_period": "Subscription period",
+        "billing_period": "Period",
+        "price": "Price",
+        "selected": "Selected",
+        "select": "select",
+        "title": "Subscription"
+    }
 
 }

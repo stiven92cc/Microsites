@@ -41,7 +41,10 @@
         "document_type": "Tipo de documento",
         "document": "Documento",
         "expired_at": "Expira",
-        "import": "Importar"
+        "import": "Importar",
+        "validUntil": "Valido",
+        "payer_email": "Email",
+        "plan_frencuency": "Plan de frecuencia"
     },
     "modules" : {
         "home": "Inicio",
@@ -50,7 +53,8 @@
         "users": "Usuarios",
         "roles": "Roles",
         "payments": "Pagos",
-        "invoices": "Facturas"
+        "invoices": "Facturas",
+        "subscriptions": "Suscripciones"
     },
     "microsites": {
         "create_new_microsite": "Crear un nuevo micrositio",
@@ -196,6 +200,14 @@
         }
     },
     "Invoices": "Facturas",
-    "Create_New_Subscription": "Crear Nueva Suscripcion"
+    "Create_New_Subscription": "Crear Nueva Suscripcion",
+    "subscription": {
+        "subscription_period": "Periodo de suscripcion",
+        "billing_period": "Periodo",
+        "price": "Precio",
+        "selected": "Seleccionar",
+        "select": "Seleccionar",
+        "title": "Suscripciones"
+    }
 
 }
