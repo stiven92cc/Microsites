@@ -127,7 +127,6 @@ const cols = [
 
 const actions = {
     edit: "subscription-plans.edit",
-    show: "subscription-plans.index",
     destroy: "subscription-plans.destroy"
 }
 
