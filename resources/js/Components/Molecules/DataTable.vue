@@ -86,6 +86,8 @@ const getIcon = (action) => {
             return CreditCardIcon;
         case 'pay':
             return CreditCardIcon;
+        case 'cancel':
+            return TrashIcon;
         default:
             return null;
     }
@@ -102,6 +104,8 @@ const getMethod = (action) => {
         case 'payment':
             return 'get';
         case 'pay':
+            return 'post';
+        case 'cancel':
             return 'post';
         default:
             return 'get';

@@ -10,6 +10,7 @@ enum PaymentStatus: string
     case APPROVED_PARTIAL = 'APPROVED_PARTIAL';
     case PARTIAL_EXPIRED = 'PARTIAL_EXPIRED';
     case UNKNOWN = 'UNKNOWN';
+    case CANCEL = 'CANCEL';
 
     public static function getPaymentStatus(): array
     {

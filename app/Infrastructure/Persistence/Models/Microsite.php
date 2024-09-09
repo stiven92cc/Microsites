@@ -47,7 +47,4 @@ class Microsite extends Model
     {
         return $this->hasMany(SubscriptionPlan::class);
     }
-
-
-
 }

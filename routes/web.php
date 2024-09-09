@@ -9,6 +9,7 @@ use App\Http\Controllers\Admin\Users\UsersController;
 use App\Http\Controllers\Guest\WelcomeController;
 use App\Http\Controllers\Payment\PaymentController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Subscription\SubscriptionController;
 use App\Http\Controllers\Subscription\SubscriptionPlanController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -34,6 +35,7 @@ Route::middleware('auth')->group(function () {
 
 
     Route::resource('subscription-plans', SubscriptionPlanController::class);
+    Route::resource('subscriptions', SubscriptionController::class);
     Route::get('subscription-plans/create/{id}', [SubscriptionPlanController::class, 'create'])
     ->name('subscription-plans.create');
 
@@ -44,6 +46,7 @@ Route::middleware('auth')->group(function () {
     Route::post('/invoices/import', [InvoiceImportController::class, 'import']);
     Route::get('/invoices/import', [InvoiceImportController::class, 'importForm'])->name('import.form');
     Route::get('/invoices', [InvoicesController::class, 'index'])->name('invoices.index');
+    Route::post('/subscription/{id}/cancel', [SubscriptionController::class, 'cancel'])->name('subscription.cancel');
 
 });
 

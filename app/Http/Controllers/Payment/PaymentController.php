@@ -23,7 +23,7 @@ class PaymentController
         return Inertia::render(
             'MicrositesForms/' . ucfirst($microsite->type),
             [
-                'microsite' => $microsite,
+                'microsite' => $microsite->load('subscriptionPlans'),
                 'user' => Auth::user() ?? null,
                 'documentTypes' => DocumentTypes::getTypes(),
                 'currencyTypes' => CurrencyTypes::getTypes()
@@ -49,10 +49,9 @@ class PaymentController
 
     public function pay(Request $request, Microsite $microsite, PaymentGatewayContract $gateway)
     {
-        $data = $request->toArray();
-
+        $data = $request->except(['subscription']);
         do {
-            $reference = Str::random(40);
+            $reference = Str::random(20);
         } while (Payment::where('reference', $reference)->exists());
 
         $data['reference'] = $reference;
@@ -87,6 +86,7 @@ class PaymentController
     {
         $microsite = Microsite::query()->where('id', $payment->microsite_id)->first();
         $gateway->query($payment);
+
 
         return Inertia::render('Payments/Detail', [
             'payment' => $payment,
