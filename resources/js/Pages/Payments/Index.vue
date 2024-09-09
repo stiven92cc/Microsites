@@ -2,7 +2,7 @@
     <AuthenticatedLayout>
         <template #header>
             <div>
-                <SPageTitle>Payments</SPageTitle>
+                <SPageTitle>{{ $t('modules.payments') }}</SPageTitle>
             </div>
         </template>
 

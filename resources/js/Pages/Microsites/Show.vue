@@ -65,31 +65,69 @@
             </div>
         </div>
 
-        <h1></h1>
+        <!-- Botón para crear un nuevo plan de suscripción -->
+        <div v-if="props.microsite.type === 'subscription'">
+            <div class="flex justify-end mt-6 mx-12">
+                <Button
+                    :classes="'bg-orange-500'"
+                    :route-name="'subscription-plans.create'"
+                    :param="props.microsite.id"
+                    type="submit"
+                >
+                    {{ $t('subscription_plans.create') }}
+                </Button>
+            </div>
 
-        <Form
-            :configuration="JSON.parse(props.microsite.form.form_configuration)"
-            :microsite="props.microsite"
+            <div class="m-12">
+                <DataTable
+                    :data="props.microsite.subscription_plans"
+                    :cols="cols"
+                    :actions="actions"
+                    :id_microsite="props.microsite.id"
+                />
+            </div>
+
+        </div>
+
+        <!--<Form
+           // :configuration="JSON.parse(props.microsite.form.form_configuration)"
+            //:microsite="props.microsite"
         >
-        </Form>
+       // </Form>-->
     </AuthenticatedLayout>
 </template>
 
 <script setup>
 import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import {ParserDate} from "@/parserDate.js";
-import DropdownLink from "@/Components/DropdownLink.vue";
-import {route} from "ziggy-js";
-import Dropdown from "@/Components/Dropdown.vue";
 import DropDownIndex from "@/Components/Molecules/DropDownIndex.vue";
 import Form from "@/Pages/Microsites/Form.vue";
-import {SPageTitle} from "@placetopay/spartan-vue";
+import {SButton, SPageTitle} from "@placetopay/spartan-vue";
 import Button from "@/Components/Atoms/Button.vue";
-import {ArrowLeftIcon} from "@heroicons/vue/24/outline/index.js";
+import {ArrowLeftIcon, PlusCircleIcon} from "@heroicons/vue/24/outline/index.js";
+import DataTable from "@/Components/Molecules/DataTable.vue";
+import { useI18n } from 'vue-i18n';
 
 const parserDate = new ParserDate();
 
 const props = defineProps({
     microsite: Object,
+    subscriptionPlans: Array
 });
+
+const { t } = useI18n();
+
+const cols = [
+    "name",
+    "amount",
+    "subscription_period",
+    "expiration_time",
+    "actions"
+];
+
+const actions = {
+    edit: "subscription-plans.edit",
+    destroy: "subscription-plans.destroy"
+}
+
 </script>

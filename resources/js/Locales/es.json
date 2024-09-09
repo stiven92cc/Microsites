@@ -33,7 +33,18 @@
         "payer_name": "Nombre",
         "return": "Volver al comercio",
         "payment_retry":"Reintentar pago",
-        "payment_summary": "Resumen del pago"
+        "payment_summary": "Resumen del pago",
+        "amount": "valor",
+        "subscription_period": "Periodo de suscripcion",
+        "expiration_time": "Tiempo de expiracion",
+        "daily": "Diario",
+        "document_type": "Tipo de documento",
+        "document": "Documento",
+        "expired_at": "Expira",
+        "import": "Importar",
+        "validUntil": "Valido",
+        "payer_email": "Email",
+        "plan_frencuency": "Plan de frecuencia"
     },
     "modules" : {
         "home": "Inicio",
@@ -41,11 +52,14 @@
         "categories": "Categorías",
         "users": "Usuarios",
         "roles": "Roles",
-        "payments": "Pagos"
+        "payments": "Pagos",
+        "invoices": "Facturas",
+        "subscriptions": "Suscripciones"
     },
     "microsites": {
         "create_new_microsite": "Crear un nuevo micrositio",
         "edit_microsite": "Editar micrositio",
+        "daily": "Diario",
         "types": {
             "donation": "Donación",
             "invoice": "Factura",
@@ -55,8 +69,10 @@
             "name": "Nombre",
             "slug": "Slug",
             "type": "Tipo",
+            "daily":"Diario",
             "category_id": "Categoría",
             "currency": "Moneda",
+            "amount": "Valor a pagar",
             "payment_expiration": "Fecha de expiración",
                 "input_logo": {
                     "select_logo": "Seleciona un logo",
@@ -85,7 +101,10 @@
             "payment_expiration": "Fecha de expiración",
             "created_at": "Fecha de creación",
             "updated_at": "Fecha de actualización",
-            "logo": "Logo"
+            "logo": "Logo",
+            "common.amount": "Valor a pagar",
+            "subscription_plans_create": "Crear Plan",
+            "daily":"Diario"
         }
     },
     "categories": {
@@ -100,10 +119,12 @@
         "create_new_user": "Crear un nuveo usuario",
         "forms": {
             "name": "Nombre",
-            "email": "Correo electrnocio",
+            "email": "Correo electronico",
             "password": "Contraseña",
             "confirm_password": "Confirmar contraseña",
-            "role": "Rol"
+            "role": "Rol",
+            "document": "Documento",
+            "document_type": "Tipo de documento"
         }
     },
     "roles": {
@@ -115,6 +136,7 @@
         },
         "forms": {
             "name": "Nombre",
+            "daily":"Diario",
             "group_roles": {
                 "users": "Ususarios",
                 "microsites": "Micrositios",
@@ -154,7 +176,38 @@
             "status_payment": "Estado del pago",
             "payment_date": "Fecha del pago",
             "microsite": "Micrositio",
-            "microsite_type": "Tipo de micrositio"
+            "microsite_type": "Tipo de micrositio",
+            "daily":"Diario"
         }
+    },
+    "subscription_plans": {
+        "create": "Crear Plan",
+        "daily":"Diario",
+        "fields": {
+            "name": "Nombre",
+            "description": "Descripcion",
+            "amount": "Monto",
+            "subscription_period": "Periodos de suscripcion",
+            "expiration_time": "Tiempo de expiracion",
+            "create": "Crear Plan",
+            "daily":"Diario"
+        },
+        "periods": {
+            "daily": "Diario",
+            "weekly": "Semanal",
+            "monthly": "Mensual",
+            "yearly": "Anual"
+        }
+    },
+    "Invoices": "Facturas",
+    "Create_New_Subscription": "Crear Nueva Suscripcion",
+    "subscription": {
+        "subscription_period": "Periodo de suscripcion",
+        "billing_period": "Periodo",
+        "price": "Precio",
+        "selected": "Seleccionar",
+        "select": "Seleccionar",
+        "title": "Suscripciones"
     }
+
 }

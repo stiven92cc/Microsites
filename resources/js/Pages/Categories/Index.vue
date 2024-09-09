@@ -1,8 +1,8 @@
 <template>
     <AuthenticatedLayout>
         <template #header>
-            <div class="flex">
-                <h2 class="font-semibold text-xl text-gray-800 leading-tight">Categorias</h2>
+            <div>
+                <SPageTitle>{{ $t('modules.categories') }}</SPageTitle>
             </div>
         </template>
 
@@ -29,6 +29,7 @@ import AuthenticatedLayout from "@/Layouts/AuthenticatedLayout.vue";
 import DataTable from "@/Components/Molecules/DataTable.vue";
 import Button from "@/Components/Atoms/Button.vue";
 import {PlusCircleIcon} from "@heroicons/vue/24/outline/index.js";
+import {SPageTitle} from "@placetopay/spartan-vue";
 
 const props = defineProps({
     categories: Object

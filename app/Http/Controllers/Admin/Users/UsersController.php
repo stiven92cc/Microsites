@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Admin\Users;
 
+use App\Constants\DocumentTypes;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Users\StoreUserRequest;
 use App\Infrastructure\Persistence\Models\Microsite;
@@ -26,7 +27,10 @@ class UsersController extends Controller
     public function create(): Response
     {
         $this->authorize('create', User::class);
-        return Inertia::render('Users/Create', ['roles' => Role::select('name')->get()]);
+        $documentTypes = DocumentTypes::getTypes();
+        return Inertia::render('Users/Create', [
+            'document_type' => $documentTypes,
+            'roles' => Role::select('name')->get()]);
     }
 
 
@@ -43,9 +47,11 @@ class UsersController extends Controller
         $this->authorize('edit', User::class);
         $user = User::find($id);
         $roles = Role::all();
+        $document_type = DocumentTypes::getTypes();
         return Inertia::render('Users/Edit', [
             'user' => $user,
             'roles' => $roles,
+            'document_type' => $document_type
         ]);
     }
 

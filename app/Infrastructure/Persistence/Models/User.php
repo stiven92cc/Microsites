@@ -2,6 +2,7 @@
 
 namespace App\Infrastructure\Persistence\Models;
 
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Notifications\Notifiable;
@@ -20,6 +21,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'document',
+        'document_type',
     ];
 
     protected $hidden = [
@@ -38,5 +41,10 @@ class User extends Authenticatable
     protected static function newFactory()
     {
         return \Database\Factories\UserFactory::new();
+    }
+
+    public function invoices(): HasMany
+    {
+        return $this->hasMany(Invoice::class);
     }
 }

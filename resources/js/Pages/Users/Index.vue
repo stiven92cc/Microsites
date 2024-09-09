@@ -1,7 +1,7 @@
 <template>
     <AuthenticatedLayout>
         <template #header>
-            <SPageTitle>Users</SPageTitle>
+            <SPageTitle>{{ $t('modules.users') }}</SPageTitle>
         </template>
 
         <div v-if="can('users.create')" class="flex justify-end m-6">

@@ -33,7 +33,18 @@
         "payer_name": "Name",
         "return": "Return to merchant",
         "payment_retry":"Payment retry",
-        "payment_summary": "Payment summary"
+        "payment_summary": "Payment summary",
+        "amount": "Amount",
+        "subscription_period": "Subscription period",
+        "expiration_time": "Expiration time",
+        "daily": "Daily",
+        "document_type": "Document type",
+        "document": "Document",
+        "expired_at": "Expired",
+        "import": "Import",
+        "validUntil": "Valid",
+        "payer_email": "Email",
+        "plan_frencuency": "Plan"
     },
     "modules" : {
         "home": "Home",
@@ -41,7 +52,9 @@
         "categories": "Categories",
         "users": "Users",
         "Roles": "Roles",
-        "payments": "Payments"
+        "payments": "Payments",
+        "invoices": "Invoices",
+        "subscriptions": "Subscription"
     },
     "microsites": {
         "create_new_microsite": "Create new microsite",
@@ -103,7 +116,9 @@
             "email": "Email",
             "password": "Password",
             "confirm_password": "Confirm password",
-            "role": "Role"
+            "role": "Role",
+            "document_type": "Document type",
+            "document": "Document"
         }
     },
     "roles": {
@@ -157,5 +172,35 @@
             "microsite": "Microsite",
             "microsite_type": "Microsite Type"
         }
+    },
+    "Invoices": "Invoices",
+    "subscription_plans": {
+        "create": "Create",
+        "daily": "Daily",
+        "fields": {
+            "name": "Name",
+            "description": "Description",
+            "amount": "Amount",
+            "subscription_period": "Subscription period",
+            "expiration_time": "Expiration time",
+            "create": "Create",
+            "daily": "Daily"
+        },
+        "periods": {
+            "daily": "Daily",
+            "weekly": "Weekly",
+            "monthly": "Monthly",
+            "yearly": "Yearly"
+        }
+    },
+    "Create_New_Subscription": "Create New Subscription",
+    "subscription": {
+        "subscription_period": "Subscription period",
+        "billing_period": "Period",
+        "price": "Price",
+        "selected": "Selected",
+        "select": "select",
+        "title": "Subscription"
     }
+
 }

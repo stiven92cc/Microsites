@@ -41,30 +41,58 @@
                 </div>
                 <div class="flex my-6">
                     <div class="mr-4 w-full">
+                        <SSelectBlock
+                            id="document_type"
+                            :errorText="form.errors.document_type"
+                            placeholder="Select one option"
+                            :label="$t('users.forms.document_type')"
+                            v-model="form.document_type"
+                        >
+                            <option v-for="(value, key) in document_type" :key="key" :value="value">
+                                {{ value}}
+                            </option>
+                        </SSelectBlock>
+                    </div>
+                    <div class="ml-4 w-full">
+                        <label class="text-sm" for="document">{{ $t('users.forms.document') }}</label>
+                        <SInput
+                            :label="$t('users.forms.document')"
+                            :errorText="form.errors.document"
+                            name="document"
+                            id="document"
+                            type="number"
+                            v-model="form.document"
+                        >
+                        </SInput>
+                    </div>
+                </div>
+
+                <div class="flex my-6">
+                    <div class="mr-4 w-full">
                         <label class="text-sm" for="password">{{ $t('users.forms.password') }}</label>
                         <SInput
                             :left-icon="KeyIcon"
                             type="password"
                             :label="$t('users.forms.password')"
-                            :errorText="form.errors.con"
-                            name="name"
-                            id="name"
+                            :errorText="form.errors.password"
+                            name="password"
+                            id="password"
                             placeholder="*********"
                             v-model="form.password"
                         >
                         </SInput>
                     </div>
                     <div class="ml-4 w-full">
-                        <label class="text-sm" for="password">{{ $t('users.forms.confirm_password') }}</label>
+                        <label class="text-sm" for="password_confirmation">{{ $t('users.forms.confirm_password') }}</label>
                         <SInput
                             :left-icon="KeyIcon"
-                            type="confirm_password"
+                            type="password"
                             :label="$t('users.forms.confirm_password')"
-                            :errorText="form.errors.confirm_password"
-                            name="confirm_password"
-                            id="name"
+                            :errorText="form.errors.password_confirmation"
+                            name="password_confirmation"
+                            id="password_confirmation"
                             placeholder="*********"
-                            v-model="form.confirm_password"
+                            v-model="form.password_confirmation"
                         >
                         </SInput>
                     </div>
@@ -111,12 +139,15 @@ import InputMessageError from "@/Layouts/InputMessageError.vue";
 const form = useForm({
     name: '',
     email: '',
+    document:'',
+    document_type:'',
     role: '',
     password:'',
-    confirm_password:'',
+    password_confirmation:'',
 });
 
 const props = defineProps({
+    document_type: {type:Object},
     roles: {type:Object}
 });
 
